@@ -1,0 +1,10 @@
+.cfspzw_hide_frm {
+	height: 0;
+	overflow: hidden;
+	opacity: 0;
+	visibility: hidden;
+}
+
+.jq-toast-heading:before{
+	content:none !important;
+}

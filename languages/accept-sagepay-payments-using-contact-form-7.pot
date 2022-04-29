@@ -1,0 +1,579 @@
+# Copyright (C) 2020 ZealousWeb Technologies
+# This file is distributed under the same license as the Accept Sagepay Payments Using Contact Form 7 plugin.
+msgid ""
+msgstr ""
+"Project-Id-Version: Accept Sagepay Payments Using Contact Form 7 1.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/accept-sagepay-payments-using-contact-form-7\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2020-08-24T11:41:12+02:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.4.0\n"
+"X-Domain: accept-sagepay-payments-using-contact-form-7\n"
+
+#. Plugin Name of the plugin
+msgid "Accept Sagepay Payments Using Contact Form 7"
+msgstr ""
+
+#. Description of the plugin
+msgid "This plugin will integrate Sagepay payment gateway for making your payments through Contact Form 7."
+msgstr ""
+
+#. Author of the plugin
+msgid "ZealousWeb Technologies"
+msgstr ""
+
+#. Author URI of the plugin
+msgid "https://www.zealousweb.com"
+msgstr ""
+
+#: inc/admin/class.cfspzw.admin.action.php:239
+msgid "From Data"
+msgstr ""
+
+#: inc/admin/class.cfspzw.admin.action.php:240
+#: inc/admin/class.cfspzw.admin.action.php:669
+msgid "Do you need help for configuration?"
+msgstr ""
+
+#: inc/admin/class.cfspzw.admin.action.php:604
+msgid "Select Forms"
+msgstr ""
+
+#: inc/admin/class.cfspzw.admin.action.php:651
+msgid "Please select Form to export."
+msgstr ""
+
+#: inc/admin/class.cfspzw.admin.action.php:903
+msgid "Import your CSV."
+msgstr ""
+
+#: inc/admin/class.cfspzw.admin.action.php:905
+msgid "Check demo CSV "
+msgstr ""
+
+#: inc/admin/class.cfspzw.admin.action.php:905
+msgid "here.."
+msgstr ""
+
+#: inc/admin/class.cfspzw.admin.action.php:907
+msgid "Enter New Form Name"
+msgstr ""
+
+#: inc/admin/class.cfspzw.admin.action.php:909
+msgid "Upload File"
+msgstr ""
+
+#. translators: Accept Sagepay Payments Using Contact Form 7
+#: inc/admin/class.cfspzw.admin.action.php:925
+msgid "<p>Import is done successfully.</p>"
+msgstr ""
+
+#. translators: Accept Sagepay Payments Using Contact Form 7
+#: inc/admin/class.cfspzw.admin.action.php:938
+msgid "<p>Nonce issue.. Please try again.</p>"
+msgstr ""
+
+#. translators: Accept Sagepay Payments Using Contact Form 7
+#: inc/admin/class.cfspzw.admin.action.php:951
+msgid "<p>File Format is not suported.</p>"
+msgstr ""
+
+#. translators: Accept Sagepay Payments Using Contact Form 7
+#: inc/admin/class.cfspzw.admin.action.php:964
+msgid "<p>File type is not correct. Please upload CSV.</p>"
+msgstr ""
+
+#. translators: Accept Sagepay Payments Using Contact Form 7
+#: inc/admin/class.cfspzw.admin.action.php:977
+msgid "<p>Import is failed contact plugin author.</p>"
+msgstr ""
+
+#: inc/admin/class.cfspzw.admin.filter.php:55
+msgid "SagePay"
+msgstr ""
+
+#: inc/admin/class.cfspzw.admin.filter.php:106
+msgid "Licensing Page"
+msgstr ""
+
+#: inc/admin/class.cfspzw.admin.filter.php:109
+#: inc/admin/template/cfspzw.template.php:115
+msgid "Document Link"
+msgstr ""
+
+#: inc/admin/class.cfspzw.admin.filter.php:112
+msgid "Support Link"
+msgstr ""
+
+#: inc/admin/class.cfspzw.admin.filter.php:147
+msgid "User Name"
+msgstr ""
+
+#: inc/admin/class.cfspzw.admin.filter.php:148
+msgid "Invoice ID"
+msgstr ""
+
+#: inc/admin/class.cfspzw.admin.filter.php:149
+msgid "Transaction Status"
+msgstr ""
+
+#: inc/admin/class.cfspzw.admin.filter.php:150
+msgid "Total Amount"
+msgstr ""
+
+#: inc/admin/class.cfspzw.admin.filter.php:151
+msgid "Submitted Date"
+msgstr ""
+
+#: inc/admin/template/cfspzw.template.php:68
+msgid "Sandbox"
+msgstr ""
+
+#: inc/admin/template/cfspzw.template.php:69
+msgid "Live"
+msgstr ""
+
+#: inc/admin/template/cfspzw.template.php:73
+msgid "Payment"
+msgstr ""
+
+#: inc/admin/template/cfspzw.template.php:74
+msgid "Deferred"
+msgstr ""
+
+#: inc/admin/template/cfspzw.template.php:75
+msgid "Authenticate"
+msgstr ""
+
+#: inc/admin/template/cfspzw.template.php:79
+msgid "Yes"
+msgstr ""
+
+#: inc/admin/template/cfspzw.template.php:80
+msgid "No"
+msgstr ""
+
+#: inc/admin/template/cfspzw.template.php:114
+msgid "To use SagePay option, first you need to create and save form tags."
+msgstr ""
+
+#: inc/admin/template/cfspzw.template.php:124
+msgid "Sagepay Enable"
+msgstr ""
+
+#: inc/admin/template/cfspzw.template.php:134
+msgid "Enable Debug Mode"
+msgstr ""
+
+#: inc/admin/template/cfspzw.template.php:144
+msgid "Payment Mode "
+msgstr ""
+
+#: inc/admin/template/cfspzw.template.php:161
+msgid "Sandbox Vendor Name "
+msgstr ""
+
+#: inc/admin/template/cfspzw.template.php:172
+msgid "Sandbox Encryption Password "
+msgstr ""
+
+#: inc/admin/template/cfspzw.template.php:184
+msgid "Live Vendor Name "
+msgstr ""
+
+#: inc/admin/template/cfspzw.template.php:195
+msgid "Live Encryption Password "
+msgstr ""
+
+#: inc/admin/template/cfspzw.template.php:207
+msgid "Amount Field Name "
+msgstr ""
+
+#: inc/admin/template/cfspzw.template.php:213
+msgid "Select field name for amount"
+msgstr ""
+
+#: inc/admin/template/cfspzw.template.php:226
+msgid "Customer Email "
+msgstr ""
+
+#: inc/admin/template/cfspzw.template.php:232
+msgid "Select field name for customer email"
+msgstr ""
+
+#: inc/admin/template/cfspzw.template.php:245
+msgid "Quantity Field Name (Optional)"
+msgstr ""
+
+#: inc/admin/template/cfspzw.template.php:251
+msgid "Select field name for quantity"
+msgstr ""
+
+#: inc/admin/template/cfspzw.template.php:265
+msgid "Transaction type"
+msgstr ""
+
+#: inc/admin/template/cfspzw.template.php:283
+msgid "Apply 3D Secure"
+msgstr ""
+
+#: inc/admin/template/cfspzw.template.php:301
+msgid "Select Currency"
+msgstr ""
+
+#: inc/admin/template/cfspzw.template.php:320
+msgid "VendorTXCode Prefix (Optional)"
+msgstr ""
+
+#: inc/admin/template/cfspzw.template.php:331
+msgid "Success Return URL (Optional)"
+msgstr ""
+
+#: inc/admin/template/cfspzw.template.php:337
+#: inc/admin/template/cfspzw.template.php:357
+msgid "Select page"
+msgstr ""
+
+#: inc/admin/template/cfspzw.template.php:351
+msgid "Cancel Return URL (Optional)"
+msgstr ""
+
+#: inc/admin/template/cfspzw.template.php:375
+msgid "Customer Billing Details"
+msgstr ""
+
+#: inc/admin/template/cfspzw.template.php:384
+msgid "Billing First Name "
+msgstr ""
+
+#: inc/admin/template/cfspzw.template.php:390
+msgid "Select field name for billing first name"
+msgstr ""
+
+#: inc/admin/template/cfspzw.template.php:403
+msgid "Billing Last Name "
+msgstr ""
+
+#: inc/admin/template/cfspzw.template.php:409
+msgid "Select field name for billing last name"
+msgstr ""
+
+#: inc/admin/template/cfspzw.template.php:422
+msgid "Billing Address "
+msgstr ""
+
+#: inc/admin/template/cfspzw.template.php:428
+msgid "Select field name for billing address"
+msgstr ""
+
+#: inc/admin/template/cfspzw.template.php:441
+msgid "Billing City "
+msgstr ""
+
+#: inc/admin/template/cfspzw.template.php:447
+msgid "Select field name for billing city"
+msgstr ""
+
+#: inc/admin/template/cfspzw.template.php:460
+msgid "Billing State "
+msgstr ""
+
+#: inc/admin/template/cfspzw.template.php:466
+msgid "Select field name for billing state"
+msgstr ""
+
+#: inc/admin/template/cfspzw.template.php:479
+msgid "Select Billing Country"
+msgstr ""
+
+#: inc/admin/template/cfspzw.template.php:485
+msgid "Select field name for billing country"
+msgstr ""
+
+#: inc/admin/template/cfspzw.template.php:498
+msgid "Billing Zipcode "
+msgstr ""
+
+#: inc/admin/template/cfspzw.template.php:504
+msgid "Select field name for billing zipcode"
+msgstr ""
+
+#: inc/admin/template/cfspzw.template.php:521
+msgid "Customer Shipping Details"
+msgstr ""
+
+#: inc/admin/template/cfspzw.template.php:530
+msgid "Shipping First Name "
+msgstr ""
+
+#: inc/admin/template/cfspzw.template.php:536
+msgid "Select field name for shipping first name"
+msgstr ""
+
+#: inc/admin/template/cfspzw.template.php:549
+msgid "Shipping Last Name "
+msgstr ""
+
+#: inc/admin/template/cfspzw.template.php:555
+msgid "Select field name for shipping last name"
+msgstr ""
+
+#: inc/admin/template/cfspzw.template.php:568
+msgid "Shipping Address "
+msgstr ""
+
+#: inc/admin/template/cfspzw.template.php:574
+msgid "Select field name for shipping address"
+msgstr ""
+
+#: inc/admin/template/cfspzw.template.php:587
+msgid "Shipping City "
+msgstr ""
+
+#: inc/admin/template/cfspzw.template.php:593
+msgid "Select field name for shipping city"
+msgstr ""
+
+#: inc/admin/template/cfspzw.template.php:606
+msgid "Shipping State "
+msgstr ""
+
+#: inc/admin/template/cfspzw.template.php:612
+msgid "Select field name for shipping state"
+msgstr ""
+
+#: inc/admin/template/cfspzw.template.php:625
+msgid "Select Shipping Country"
+msgstr ""
+
+#: inc/admin/template/cfspzw.template.php:631
+msgid "Select field name for shipping country"
+msgstr ""
+
+#: inc/admin/template/cfspzw.template.php:644
+msgid "Shipping Zipcode "
+msgstr ""
+
+#: inc/admin/template/cfspzw.template.php:650
+msgid "Select field name for shipping zipcode"
+msgstr ""
+
+#: inc/admin/template/cfspzw.template.php:684
+msgid "<h3>Vendor Name </h3><p>Get Vendor Name from <a href=\"#\" target=\"_blank\">here</a></p>"
+msgstr ""
+
+#: inc/admin/template/cfspzw.template.php:688
+msgid "<h3>Encryption Password</h3><p>Get Encryption Password from <a href=\"#\" target=\"_blank\">here</a></p>"
+msgstr ""
+
+#: inc/admin/template/cfspzw.template.php:692
+msgid "<h3>Select Currency</h3><p>Select the currency.</p>"
+msgstr ""
+
+#: inc/admin/template/cfspzw.template.php:696
+msgid "<h3>Amount Field</h3><p>Select field from where amount value needs to be retrieved.</p><p><b>Note: </b> Save the FORM details to view the list of fields.</p>"
+msgstr ""
+
+#: inc/admin/template/cfspzw.template.php:700
+msgid "<h3>Quantity Field</h3><p>Select field from where quantity value needs to be retrieved.</p><p><b>Note: </b> Save the FORM details to view the list of fields.</p>"
+msgstr ""
+
+#: inc/admin/template/cfspzw.template.php:704
+msgid "<h3>Customer Email Field</h3><p>Select field from where customer email value needs to be retrieved.</p><p><b>Note: </b> Save the FORM details to view the list of fields.</p>"
+msgstr ""
+
+#: inc/admin/template/cfspzw.template.php:708
+msgid "<h3>VendorTXCode Prefix Field</h3><p>Please enter unique prefix name which display in invoice order.</p>"
+msgstr ""
+
+#: inc/admin/template/cfspzw.template.php:712
+msgid "<h3>Success Return URL Field </h3><p>Select page and redirect customer after succesfully payment done.</p>"
+msgstr ""
+
+#: inc/admin/template/cfspzw.template.php:716
+msgid "<h3>Cancel Return URL Field  </h3><p>Select page and redirect customer after cancel payment process or payment not done.</p>"
+msgstr ""
+
+#: inc/admin/template/cfspzw.template.php:720
+msgid "<h3>Billing First Name Field</h3><p>Select field from where billing first name value needs to be retrieved.</p><p><b>Note: </b> Save the FORM details to view the list of fields.</p>"
+msgstr ""
+
+#: inc/admin/template/cfspzw.template.php:724
+msgid "<h3>Billing Last Name Field</h3><p>Select field from where billing last name value needs to be retrieved.</p><p><b>Note: </b> Save the FORM details to view the list of fields.</p>"
+msgstr ""
+
+#: inc/admin/template/cfspzw.template.php:728
+msgid "<h3>Billing Address Field</h3><p>Select field from where billing address value needs to be retrieved.</p><p><b>Note: </b> Save the FORM details to view the list of fields.</p>"
+msgstr ""
+
+#: inc/admin/template/cfspzw.template.php:732
+msgid "<h3>Billing City Field</h3><p>Select field from where billing city value needs to be retrieved.</p><p><b>Note: </b> Save the FORM details to view the list of fields.</p>"
+msgstr ""
+
+#: inc/admin/template/cfspzw.template.php:736
+msgid "<h3>Billing State Field</h3><p>Select field from where billing state value needs to be retrieved.</p><p><b>Note: </b> Save the FORM details to view the list of fields.</p>"
+msgstr ""
+
+#: inc/admin/template/cfspzw.template.php:740
+msgid "<h3>Billing Country Field</h3><p>Select field from where billing country value needs to be retrieved.</p><p><b>Note: </b> Save the FORM details to view the list of fields.</p>"
+msgstr ""
+
+#: inc/admin/template/cfspzw.template.php:744
+msgid "<h3>Billing ZipCode Field</h3><p>Select field from where billing zipcode value needs to be retrieved.</p><p><b>Note: </b> Save the FORM details to view the list of fields.</p>"
+msgstr ""
+
+#: inc/admin/template/cfspzw.template.php:748
+msgid "<h3>Shipping First Name Field</h3><p>Select field from where shipping first name value needs to be retrieved.</p><p><b>Note: </b> Save the FORM details to view the list of fields.</p>"
+msgstr ""
+
+#: inc/admin/template/cfspzw.template.php:752
+msgid "<h3>Shipping Last Name Field</h3><p>Select field from where shipping last name value needs to be retrieved.</p><p><b>Note: </b> Save the FORM details to view the list of fields.</p>"
+msgstr ""
+
+#: inc/admin/template/cfspzw.template.php:756
+msgid "<h3>Shipping Address Field</h3><p>Select field from where shipping address value needs to be retrieved.</p><p><b>Note: </b> Save the FORM details to view the list of fields.</p>"
+msgstr ""
+
+#: inc/admin/template/cfspzw.template.php:760
+msgid "<h3>Shipping City Field</h3><p>Select field from where shipping city value needs to be retrieved.</p><p><b>Note: </b> Save the FORM details to view the list of fields.</p>"
+msgstr ""
+
+#: inc/admin/template/cfspzw.template.php:764
+msgid "<h3>Shipping State Field</h3><p>Select field from where shipping state value needs to be retrieved.</p><p><b>Note: </b> Save the FORM details to view the list of fields.</p>"
+msgstr ""
+
+#: inc/admin/template/cfspzw.template.php:768
+msgid "<h3>Shipping Country Field</h3><p>Select field from where shipping country value needs to be retrieved.</p><p><b>Note: </b> Save the FORM details to view the list of fields.</p>"
+msgstr ""
+
+#: inc/admin/template/cfspzw.template.php:772
+msgid "<h3>Shipping ZipCode Field</h3><p>Select field from where shipping zipcode value needs to be retrieved.</p><p><b>Note: </b> Save the FORM details to view the list of fields.</p>"
+msgstr ""
+
+#: inc/class.cfspzw.php:123
+#: inc/class.cfspzw.php:124
+#: inc/class.cfspzw.php:129
+msgid "Sagepay Payment Details"
+msgstr ""
+
+#: inc/class.cfspzw.php:125
+msgid "Transaction Detail"
+msgstr ""
+
+#: inc/class.cfspzw.php:169
+msgid "<strong><a href=\"https://wordpress.org/plugins/contact-form-7/\" target=\"_blank\">Contact Form 7</a></strong> is required to use <strong>%s</strong>."
+msgstr ""
+
+#: inc/class.cfspzw.php:188
+msgid "Sagepay Country"
+msgstr ""
+
+#: inc/class.cfspzw.php:291
+msgid "Generate a form-tag for to display Sagepay Country"
+msgstr ""
+
+#: inc/class.cfspzw.php:300
+msgid "Name"
+msgstr ""
+
+#: inc/class.cfspzw.php:315
+msgid "Insert Tag"
+msgstr ""
+
+#: inc/class.cfspzw.php:322
+msgid "To use the value input through this field in a mail field, you need to insert the corresponding mail-tag (%s) into the field on the Mail tab."
+msgstr ""
+
+#: inc/lib/class.cfspzw.lib.php:211
+msgid "SagePay Payment Notification"
+msgstr ""
+
+#: inc/lib/class.cfspzw.lib.php:414
+#: inc/lib/class.cfspzw.lib.php:424
+msgid "Sagepay Response Details:"
+msgstr ""
+
+#: inc/lib/class.cfspzw.lib.php:556
+msgid "Payment Page not Configured Properly. Please Conatct Admin. "
+msgstr ""
+
+#: inc/lib/class.cfspzw.lib.php:619
+#: inc/lib/class.cfspzw.lib.php:628
+#: inc/lib/class.cfspzw.lib.php:955
+msgid "Please Enter Amount value or Value in Numeric."
+msgstr ""
+
+#: inc/lib/class.cfspzw.lib.php:720
+msgid "Order #%s"
+msgstr ""
+
+#: inc/lib/class.cfspzw.lib.php:834
+msgid "Something goes wrong! Please try again."
+msgstr ""
+
+#: inc/lib/class.cfspzw.lib.php:854
+msgid "Transaction Amount :"
+msgstr ""
+
+#: inc/lib/class.cfspzw.lib.php:858
+msgid "Payment Status :"
+msgstr ""
+
+#: inc/lib/class.cfspzw.lib.php:862
+msgid "Transaction Id :"
+msgstr ""
+
+#: inc/lib/class.cfspzw.lib.php:866
+msgid "Invoice ID :"
+msgstr ""
+
+#: inc/lib/class.cfspzw.lib.php:874
+msgid "Response :"
+msgstr ""
+
+#: inc/lib/class.cfspzw.lib.php:922
+msgid "Please wait you are redirecting to sagepay..!"
+msgstr ""
+
+#: inc/lib/class.cfspzw.lib.php:957
+msgid "The field is required."
+msgstr ""
+
+#: inc/lib/class.cfspzw.lib.php:981
+msgid "One or more fields have an error. Please check and try again."
+msgstr ""
+
+#: inc/lib/class.cfspzw.licence.php:154
+#: inc/lib/class.cfspzw.licence.php:199
+#: inc/lib/class.cfspzw.licence.php:266
+#: inc/lib/class.cfspzw.licence.php:362
+msgid "An error occurred, please try again."
+msgstr ""
+
+#: inc/lib/class.cfspzw.licence.php:168
+msgid "Your license key expired."
+msgstr ""
+
+#: inc/lib/class.cfspzw.licence.php:174
+msgid "Your license key has been disabled."
+msgstr ""
+
+#: inc/lib/class.cfspzw.licence.php:178
+msgid "Invalid license."
+msgstr ""
+
+#: inc/lib/class.cfspzw.licence.php:184
+msgid "Your license is not active for this URL."
+msgstr ""
+
+#: inc/lib/class.cfspzw.licence.php:189
+msgid "This appears to be an invalid license key for %s."
+msgstr ""
+
+#: inc/lib/class.cfspzw.licence.php:194
+msgid "Your license key has reached its activation limit."
+msgstr ""
