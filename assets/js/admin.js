@@ -109,10 +109,36 @@
 	 * Validate sagepay admin option required fields
 	 */
 	jQuery( document ).ready( function() {
-		check_sagepay_field_validation()
+
+		if(cfspzw_object.translate_string_cfspzw.cfspzw_review != 1){
+			if (typeof Cookies.get('review_cfspzw') === 'undefined'){ // no cookie
+				jQuery('#myModal').modal('show');
+				Cookies.set('review_cfspzw', 'yes', { expires: 15 }); // set cookie expiry to 15 day
+			}
+		}
+
+		jQuery(".review-cfspzw, .remind-cfspzw").click(function(){
+			jQuery("#myModal").modal('hide');
+		});
+
+		jQuery(".review-cfspzw").click(function(){
+			jQuery.ajax({
+				type: "post",
+				dataType: "json",
+				url: cfspzw_object.ajax_url,
+				data: 'action=cfspzw_review_done&value=1',
+				success: function(){
+				}
+			});
+		});
+
+		check_sagepay_field_validation();
+
 	});
+
+
 	jQuery( document ).on('click',".ui-state-default",function() {
-		check_sagepay_field_validation()
+		check_sagepay_field_validation();
 	});
 
 	/**
@@ -146,7 +172,7 @@
 		jQuery( 'body .wp-pointer-buttons .close' ).trigger( 'click' );
 		jQuery( '#cfspzw-sandbox-vendor-name' ).pointer({
 			pointerClass: 'wp-pointer cfspzw-pointer',
-			content: translate_string_sagepay.vendor_name,
+			content: cfspzw_object.translate_string_cfspzw.vendor_name,
 			position: 'left center',
 		}).pointer('open');
 	});
@@ -155,7 +181,7 @@
 		jQuery( 'body .wp-pointer-buttons .close' ).trigger( 'click' );
 		jQuery( '#cfspzw-sandbox-encryption-password' ).pointer({
 			pointerClass: 'wp-pointer cfspzw-pointer',
-			content: translate_string_sagepay.encryption_password,
+			content: cfspzw_object.translate_string_cfspzw.encryption_password,
 			position: 'left center',
 		}).pointer('open');
 	});
@@ -164,7 +190,7 @@
 		jQuery( 'body .wp-pointer-buttons .close' ).trigger( 'click' );
 		jQuery( '#cfspzw-live-vendor-name' ).pointer({
 			pointerClass: 'wp-pointer cfspzw-pointer',
-			content: translate_string_sagepay.vendor_name,
+			content: cfspzw_object.translate_string_cfspzw.vendor_name,
 			position: 'left center',
 		}).pointer('open');
 	});
@@ -173,7 +199,7 @@
 		jQuery( 'body .wp-pointer-buttons .close' ).trigger( 'click' );
 		jQuery( '#cfspzw-live-encryption-password' ).pointer({
 			pointerClass: 'wp-pointer cfspzw-pointer',
-			content: translate_string_sagepay.encryption_password,
+			content: cfspzw_object.translate_string_cfspzw.encryption_password,
 			position: 'left center',
 		}).pointer('open');
 	});
@@ -182,7 +208,7 @@
 		jQuery( 'body .wp-pointer-buttons .close' ).trigger( 'click' );
 		jQuery( '#cfspzw-select-currency' ).pointer({
 			pointerClass: 'wp-pointer cfspzw-pointer',
-			content: translate_string_sagepay.currency,
+			content: cfspzw_object.translate_string_cfspzw.currency,
 			position: 'left center',
 		}).pointer('open');
 	});
@@ -191,7 +217,7 @@
 		jQuery( 'body .wp-pointer-buttons .close' ).trigger( 'click' );
 		jQuery( '#cfspzw-amount' ).pointer({
 			pointerClass: 'wp-pointer cfspzw-pointer',
-			content: translate_string_sagepay.amount,
+			content: cfspzw_object.translate_string_cfspzw.amount,
 			position: 'left center',
 		}).pointer('open');
 	});
@@ -200,7 +226,7 @@
 		jQuery( 'body .wp-pointer-buttons .close' ).trigger( 'click' );
 		jQuery( '#cfspzw-quantity' ).pointer({
 			pointerClass: 'wp-pointer cfspzw-pointer',
-			content: translate_string_sagepay.quantity,
+			content: cfspzw_object.translate_string_cfspzw.quantity,
 			position: 'left center',
 		}).pointer('open');
 	});
@@ -209,7 +235,7 @@
 		jQuery( 'body .wp-pointer-buttons .close' ).trigger( 'click' );
 		jQuery( '#cfspzw-email' ).pointer({
 			pointerClass: 'wp-pointer cfspzw-pointer',
-			content: translate_string_sagepay.email,
+			content: cfspzw_object.translate_string_cfspzw.email,
 			position: 'left center',
 		}).pointer('open');
 	});
@@ -218,7 +244,7 @@
 		jQuery( 'body .wp-pointer-buttons .close' ).trigger( 'click' );
 		jQuery( '#cfspzw-prefix' ).pointer({
 			pointerClass: 'wp-pointer cfspzw-pointer',
-			content: translate_string_sagepay.prefix,
+			content: cfspzw_object.translate_string_cfspzw.prefix,
 			position: 'left center',
 		}).pointer('open');
 	});
@@ -227,7 +253,7 @@
 		jQuery( 'body .wp-pointer-buttons .close' ).trigger( 'click' );
 		jQuery( '#cfspzw-success-returnurl' ).pointer({
 			pointerClass: 'wp-pointer cfspzw-pointer',
-			content: translate_string_sagepay.success_returnurl,
+			content: cfspzw_object.translate_string_cfspzw.success_returnurl,
 			position: 'left center',
 		}).pointer('open');
 	});
@@ -236,7 +262,7 @@
 		jQuery( 'body .wp-pointer-buttons .close' ).trigger( 'click' );
 		jQuery( '#cfspzw-cancel-returnurl' ).pointer({
 			pointerClass: 'wp-pointer cfspzw-pointer',
-			content: translate_string_sagepay.cancel_returnurl,
+			content: cfspzw_object.translate_string_cfspzw.cancel_returnurl,
 			position: 'left center',
 		}).pointer('open');
 	});
@@ -245,7 +271,7 @@
 		jQuery( 'body .wp-pointer-buttons .close' ).trigger( 'click' );
 		jQuery( '#cfspzw-billing-firstnames' ).pointer({
 			pointerClass: 'wp-pointer cfspzw-pointer',
-			content: translate_string_sagepay.billing_firstnames,
+			content: cfspzw_object.translate_string_cfspzw.billing_firstnames,
 			position: 'left center',
 		}).pointer('open');
 	});
@@ -254,7 +280,7 @@
 		jQuery( 'body .wp-pointer-buttons .close' ).trigger( 'click' );
 		jQuery( '#cfspzw-billing-surname' ).pointer({
 			pointerClass: 'wp-pointer cfspzw-pointer',
-			content: translate_string_sagepay.billing_surname,
+			content: cfspzw_object.translate_string_cfspzw.billing_surname,
 			position: 'left center',
 		}).pointer('open');
 	});
@@ -263,7 +289,7 @@
 		jQuery( 'body .wp-pointer-buttons .close' ).trigger( 'click' );
 		jQuery( '#cfspzw-billing-address' ).pointer({
 			pointerClass: 'wp-pointer cfspzw-pointer',
-			content: translate_string_sagepay.billing_address,
+			content: cfspzw_object.translate_string_cfspzw.billing_address,
 			position: 'left center',
 		}).pointer('open');
 	});
@@ -272,7 +298,7 @@
 		jQuery( 'body .wp-pointer-buttons .close' ).trigger( 'click' );
 		jQuery( '#cfspzw-billing-city' ).pointer({
 			pointerClass: 'wp-pointer cfspzw-pointer',
-			content: translate_string_sagepay.billing_city,
+			content: cfspzw_object.translate_string_cfspzw.billing_city,
 			position: 'left center',
 		}).pointer('open');
 	});
@@ -281,7 +307,7 @@
 		jQuery( 'body .wp-pointer-buttons .close' ).trigger( 'click' );
 		jQuery( '#cfspzw-billing-state' ).pointer({
 			pointerClass: 'wp-pointer cfspzw-pointer',
-			content: translate_string_sagepay.billing_state,
+			content: cfspzw_object.translate_string_cfspzw.billing_state,
 			position: 'left center',
 		}).pointer('open');
 	});
@@ -290,7 +316,7 @@
 		jQuery( 'body .wp-pointer-buttons .close' ).trigger( 'click' );
 		jQuery( '#cfspzw-billing-country' ).pointer({
 			pointerClass: 'wp-pointer cfspzw-pointer',
-			content: translate_string_sagepay.billing_country,
+			content: cfspzw_object.translate_string_cfspzw.billing_country,
 			position: 'left center',
 		}).pointer('open');
 	});
@@ -300,7 +326,7 @@
 		jQuery( 'body .wp-pointer-buttons .close' ).trigger( 'click' );
 		jQuery( '#cfspzw-billing-zip' ).pointer({
 			pointerClass: 'wp-pointer cfspzw-pointer',
-			content: translate_string_sagepay.billing_zip,
+			content: cfspzw_object.translate_string_cfspzw.billing_zip,
 			position: 'left center',
 		}).pointer('open');
 	});
@@ -309,7 +335,7 @@
 		jQuery( 'body .wp-pointer-buttons .close' ).trigger( 'click' );
 		jQuery( '#cfspzw-shipping-firstnames' ).pointer({
 			pointerClass: 'wp-pointer cfspzw-pointer',
-			content: translate_string_sagepay.shipping_firstnames,
+			content: cfspzw_object.translate_string_cfspzw.shipping_firstnames,
 			position: 'left center',
 		}).pointer('open');
 	});
@@ -318,7 +344,7 @@
 		jQuery( 'body .wp-pointer-buttons .close' ).trigger( 'click' );
 		jQuery( '#cfspzw-shipping-surname' ).pointer({
 			pointerClass: 'wp-pointer cfspzw-pointer',
-			content: translate_string_sagepay.shipping_surname,
+			content: cfspzw_object.translate_string_cfspzw.shipping_surname,
 			position: 'left center',
 		}).pointer('open');
 	});
@@ -327,7 +353,7 @@
 		jQuery( 'body .wp-pointer-buttons .close' ).trigger( 'click' );
 		jQuery( '#cfspzw-shipping-address' ).pointer({
 			pointerClass: 'wp-pointer cfspzw-pointer',
-			content: translate_string_sagepay.shipping_address,
+			content: cfspzw_object.translate_string_cfspzw.shipping_address,
 			position: 'left center',
 		}).pointer('open');
 	});
@@ -336,7 +362,7 @@
 		jQuery( 'body .wp-pointer-buttons .close' ).trigger( 'click' );
 		jQuery( '#cfspzw-shipping-city' ).pointer({
 			pointerClass: 'wp-pointer cfspzw-pointer',
-			content: translate_string_sagepay.shipping_city,
+			content: cfspzw_object.translate_string_cfspzw.shipping_city,
 			position: 'left center',
 		}).pointer('open');
 	});
@@ -345,7 +371,7 @@
 		jQuery( 'body .wp-pointer-buttons .close' ).trigger( 'click' );
 		jQuery( '#cfspzw-shipping-state' ).pointer({
 			pointerClass: 'wp-pointer cfspzw-pointer',
-			content: translate_string_sagepay.shipping_state,
+			content: cfspzw_object.translate_string_cfspzw.shipping_state,
 			position: 'left center',
 		}).pointer('open');
 	});
@@ -354,7 +380,7 @@
 		jQuery( 'body .wp-pointer-buttons .close' ).trigger( 'click' );
 		jQuery( '#cfspzw-shipping-country' ).pointer({
 			pointerClass: 'wp-pointer cfspzw-pointer',
-			content: translate_string_sagepay.shipping_country,
+			content: cfspzw_object.translate_string_cfspzw.shipping_country,
 			position: 'left center',
 		}).pointer('open');
 	});
@@ -363,7 +389,7 @@
 		jQuery( 'body .wp-pointer-buttons .close' ).trigger( 'click' );
 		jQuery( '#cfspzw-shipping-zip' ).pointer({
 			pointerClass: 'wp-pointer cfspzw-pointer',
-			content: translate_string_sagepay.shipping_zip,
+			content: cfspzw_object.translate_string_cfspzw.shipping_zip,
 			position: 'left center',
 		}).pointer('open');
 	} );

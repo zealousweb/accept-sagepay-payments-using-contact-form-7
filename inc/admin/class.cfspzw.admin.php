@@ -6,7 +6,7 @@
 *
 * @package WordPress
 * @subpackage Accept Sagepay Payments Using Contact Form 7
-* @since 1.0
+* @since 1.2
 */
 
 // Exit if accessed directly
@@ -73,4 +73,8 @@ if ( !class_exists( 'CFSPZW_Admin' ) ) {
 
 	}
 
+	add_action( 'plugins_loaded', function() {
+		CFSPZW()->admin = new CFSPZW_Admin;
+	} );
+	
 }

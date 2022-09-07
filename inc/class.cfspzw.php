@@ -6,7 +6,7 @@
 *
 * @package WordPress
 * @subpackage Accept Sagepay Payments Using Contact Form 7
-* @since 1.0
+* @since 1.2
 */
 
 // Exit if accessed directly
@@ -15,15 +15,13 @@ if ( !defined( 'ABSPATH' ) ) exit;
 if ( !class_exists( 'CFSPZW' ) ) {
 
 	include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
-	include_once( CFSPZW_DIR . '/inc/lib/class.' . CFSPZW_PREFIX . '.licence.php' );
-
+	
 	/**
 	* The main CFSPZW class
 	*/
 	class CFSPZW {
 
 		private static $_instance = null;
-		private static $private_data = null;
 
 		var $admin = null,
 			$front = null,
@@ -38,10 +36,7 @@ if ( !class_exists( 'CFSPZW' ) ) {
 		}
 
 		function __construct() {
-
-			if ( is_plugin_active( 'contact-form-7/wp-contact-form-7.php' ) ) {
-				self::$private_data = new CFSPZW_Licence();
-			}
+			
 			// Action to load plugin text domain
 			add_action( 'plugins_loaded', array( $this, 'action__cfspzw_plugins_loaded' ), 1 );
 		}
@@ -62,42 +57,36 @@ if ( !class_exists( 'CFSPZW' ) ) {
 				}
 			}
 
-			if ( is_plugin_active( 'contact-form-7/wp-contact-form-7.php' ) ) {
-				require_once ( CFSPZW_DIR . '/inc/class.' . CFSPZW_PREFIX . '.update.php' );
-				$licence_instance = self::$private_data;
-				new CFSPZW_Update( CFSPZW_VERSION, CFSPZW_PLUGIN_BASENAME, get_option( $licence_instance::cfspzw_licence_email, '' ), get_option( $licence_instance::cfspzw_licence_key, '' ));
+			if ( is_plugin_active( 'contact-form-7/wp-contact-form-7.php' ) ) {				
 
-				if ( !empty( self::$private_data->instance() ) ) {
+				add_action( 'init', array( $this, 'action__cfspzw_init' ) );
 
-					add_action( 'init', array( $this, 'action__cfspzw_init' ) );
+				global $wp_version;
 
-					global $wp_version;
+				// Set filter for plugin's languages directory
+				$cfspzw_lang_dir = dirname( CFSPZW_PLUGIN_BASENAME ) . '/languages/';
+				$cfspzw_lang_dir = apply_filters( 'cfspzw_languages_directory', $cfspzw_lang_dir );
 
-					// Set filter for plugin's languages directory
-					$cfspzw_lang_dir = dirname( CFSPZW_PLUGIN_BASENAME ) . '/languages/';
-					$cfspzw_lang_dir = apply_filters( 'cfspzw_languages_directory', $cfspzw_lang_dir );
+				// Traditional WordPress plugin locale filter.
+				$get_locale = get_locale();
 
-					// Traditional WordPress plugin locale filter.
-					$get_locale = get_locale();
+				if ( $wp_version >= 4.7 ) {
+					$get_locale = get_user_locale();
+				}
 
-					if ( $wp_version >= 4.7 ) {
-						$get_locale = get_user_locale();
-					}
+				// Traditional WordPress plugin locale filter
+				$locale = apply_filters( 'plugin_locale',  $get_locale, 'accept-sagepay-payments-using-contact-form-7' );
+				$mofile = sprintf( '%1$s-%2$s.mo', 'accept-sagepay-payments-using-contact-form-7', $locale );
 
-					// Traditional WordPress plugin locale filter
-					$locale = apply_filters( 'plugin_locale',  $get_locale, 'accept-sagepay-payments-using-contact-form-7' );
-					$mofile = sprintf( '%1$s-%2$s.mo', 'accept-sagepay-payments-using-contact-form-7', $locale );
+				// Setup paths to current locale file
+				$mofile_global = WP_LANG_DIR . '/plugins/' . basename( CFSPZW_DIR ) . '/' . $mofile;
 
-					// Setup paths to current locale file
-					$mofile_global = WP_LANG_DIR . '/plugins/' . basename( CFSPZW_DIR ) . '/' . $mofile;
-
-					if ( file_exists( $mofile_global ) ) {
-						// Look in global /wp-content/languages/plugin-name folder
-						load_textdomain( 'accept-sagepay-payments-using-contact-form-7', $mofile_global );
-					} else {
-						// Load the default language files
-						load_plugin_textdomain( 'accept-sagepay-payments-using-contact-form-7', false, $cfspzw_lang_dir );
-					}
+				if ( file_exists( $mofile_global ) ) {
+					// Look in global /wp-content/languages/plugin-name folder
+					load_textdomain( 'accept-sagepay-payments-using-contact-form-7', $mofile_global );
+				} else {
+					// Load the default language files
+					load_plugin_textdomain( 'accept-sagepay-payments-using-contact-form-7', false, $cfspzw_lang_dir );
 				}
 			}
 		}
@@ -109,9 +98,6 @@ if ( !class_exists( 'CFSPZW' ) ) {
 
 			/* Initialize backend tags*/
 			add_action('wpcf7_admin_init',						array( $this, 'action__cfspzw_admin_init' ), 15, 0 );
-			add_action('wp_ajax_cf7_cfspzw_validation',			array( $this, 'ajax__cf7_cfspzw_validation' ) );
-			add_action('wp_ajax_nopriv_cf7_cfspzw_validation',	array( $this, 'ajax__cf7_cfspzw_validation' ) );
-
 			add_rewrite_rule( '^cfspzw-phpinfo(/(.*))?/?$', 'index.php?cfspzw-phpinfo=$matches[2]', 'top' );
 			flush_rewrite_rules();
 
@@ -188,70 +174,7 @@ if ( !class_exists( 'CFSPZW' ) ) {
 				__( 'Sagepay Country', 'accept-sagepay-payments-using-contact-form-7' ),
 				array( $this, 'wpcf7_sagepay_country_tag_generator_checkout' )
 			);
-		}
-
-		/**
-		* Render CF7 Validation.
-		*
-		* @method ajax__cf7_cfspzw_validation
-		*
-		* @return  array  $args
-		*/
-		function ajax__cf7_cfspzw_validation() {
-			global $wpdb;
-			if ( isset( $_POST[ '_wpcf7' ] ) ) {
-
-				$id = (int) $_POST[ '_wpcf7' ];
-
-				$unit_tag = wpcf7_sanitize_unit_tag( $_POST[ '_wpcf7_unit_tag' ] );
-
-				$spam = false;
-
-				if ( $contact_form = wpcf7_contact_form( $id ) ) {
-
-					if ( WPCF7_VERIFY_NONCE && ! wpcf7_verify_nonce( $_POST['_wpnonce'], $contact_form->id() ) ) {
-						$spam = true;
-						exit( __( 'Spam detected' ) );
-					} else {
-						$items = array(
-							'mailSent' => false,
-							'into' => '#' . $unit_tag,
-							'captcha' => null
-						);
-
-						/* Begin validation*/
-						require_once WPCF7_PLUGIN_DIR . '/includes/validation.php';
-						$result = new WPCF7_Validation();
-
-						$tags = $contact_form->scan_form_tags();
-
-						foreach ( $tags as $tag ) {
-							$result = apply_filters( 'wpcf7_validate_' . $tag[ 'type' ], $result, $tag );
-						}
-
-						$result = apply_filters( 'wpcf7_validate', $result, $tags );
-
-						$invalid_fields = $result->get_invalid_fields();
-						$return = array( 'success' => $result->is_valid(), 'invalid_fields' => $invalid_fields );
-
-						if ( $return[ 'success' ] == false ) {
-							$messages = $contact_form->prop( 'messages' );
-							$return[ 'message' ] = $messages[ 'validation_error' ];
-
-							if ( empty( $return[ 'message' ] ) ) {
-								$default_messages = wpcf7_messages();
-								$return[ 'message' ] = $default_messages[ 'validation_error' ][ 'default' ];
-							}
-						} else {
-							$return[ 'message' ] = '';
-						}
-
-						$json = json_encode( $return );
-						exit( $json );
-					}
-				}
-			}
-		}
+		}		
 
 		/*
 		######## #### ##       ######## ######## ########   ######

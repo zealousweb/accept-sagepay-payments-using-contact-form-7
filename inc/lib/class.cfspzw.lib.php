@@ -6,7 +6,7 @@
 *
 * @package WordPress
 * @subpackage Accept Sagepay Payments Using Contact Form 7
-* @since 1.0
+* @since 1.2
 */
 
 // Exit if accessed directly
@@ -82,7 +82,7 @@ if ( !class_exists( 'CFSPZW_Lib' ) ) {
 			$cf7_verify = $this->wpcf7_version();
 
 			if ( version_compare( $cf7_verify, '5.2' ) >= 0 ) {
-				add_filter( 'wpcf7_feedback_response',	array( $this, 'filter__cfspzw_wpcf7_ajax_json_echo' ), 20, 2 );				
+				add_filter( 'wpcf7_feedback_response',	array( $this, 'filter__cfspzw_wpcf7_ajax_json_echo' ), 20, 2 );
 			} else{
 				add_filter( 'wpcf7_ajax_json_echo',	array( $this, 'filter__cfspzw_wpcf7_ajax_json_echo' ), 20, 2 );
 			}
@@ -120,7 +120,7 @@ if ( !class_exists( 'CFSPZW_Lib' ) ) {
 		function action__cfspzw_sagepay_direct_ipn(){
 			global $wpdb;
 
-			$form_ID = (int)( isset( $_REQUEST['form'] ) ? $_REQUEST['form'] : '' );
+			$form_ID = (int)( isset( $_REQUEST['form'] ) ? sanitize_text_field( $_REQUEST['form'] ) : '' );
 
 			if (
 				   isset( $_REQUEST['crypt'] )
@@ -131,7 +131,7 @@ if ( !class_exists( 'CFSPZW_Lib' ) ) {
 			){
 
 				$from_data  = unserialize( $_SESSION[ CFSPZW_META_PREFIX . 'form_instance' ] );
-				$form_ID	= $_REQUEST['form'];
+				$form_ID	= sanitize_text_field( $_REQUEST['form'] );
 
 				$attachment = '';
 				if(!empty($_SESSION[ CFSPZW_META_PREFIX . 'form_attachment_' . $form_ID ])){
@@ -140,13 +140,13 @@ if ( !class_exists( 'CFSPZW_Lib' ) ) {
 
 				$get_posted_data = $from_data->get_posted_data();
 
-				$mode  = get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'status', true );
-				$sandbox_encryption_password	= get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'sandbox_encryption_password', true );
-				$live_encryption_password		= get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'live_encryption_password', true );
+				$mode  = sanitize_text_field( get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'status', true ) );
+				$sandbox_encryption_password	= sanitize_text_field( get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'sandbox_encryption_password', true ) );
+				$live_encryption_password		= sanitize_text_field( get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'live_encryption_password', true ) );
 
 				$encryption_password = ( !empty( $mode ) ? $sandbox_encryption_password : $live_encryption_password );
 
-				$fetch_result = $this->decryptFieldData( $_REQUEST['crypt'], $encryption_password );
+				$fetch_result = $this->decryptFieldData( sanitize_text_field( $_REQUEST['crypt'] ), $encryption_password );
 				wp_parse_str($fetch_result, $output);
 
 				$VendorTxCode 	= $output['VendorTxCode'];
@@ -155,13 +155,14 @@ if ( !class_exists( 'CFSPZW_Lib' ) ) {
 				$StatusDetail	= $output['StatusDetail'];
 				$Amount			= $output['Amount'];
 
-				$currency  = get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'currency', true );
+				$currency  = sanitize_text_field( get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'currency', true ) );
 
-				$billing_firstnames	= get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'billing_firstnames', true );
-				$billing_surname	= get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'billing_surname', true );
-				$quantity			= get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'quantity', true );
-				$amount 			= get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'amount', true );
-				$customer_email		= get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'customer_email', true );
+				$billing_firstnames	= sanitize_text_field( get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'billing_firstnames', true ) );
+				$billing_surname	= sanitize_text_field( get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'billing_surname', true ) );
+				$quantity			= sanitize_text_field( get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'quantity', true ) );
+				$amount 			= sanitize_text_field( get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'amount', true ) );
+				$customer_email		= sanitize_text_field( get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'customer_email', true ) );
+				$exceed_ct			= sanitize_text_field( substr( get_option( '_exceed_cfspzw_l' ), 6 ) );
 
 				$billing_firstnames = ( ( !empty( $billing_firstnames ) && array_key_exists( $billing_firstnames, $get_posted_data ) ) ?  $get_posted_data[$billing_firstnames]  : '' );
 				$billing_surname	= ( ( !empty( $billing_surname ) && array_key_exists( $billing_surname, $get_posted_data ) ) ? $get_posted_data[$billing_surname] : '' );
@@ -196,7 +197,6 @@ if ( !class_exists( 'CFSPZW_Lib' ) ) {
 				}
 
 				$total_amount_Payable = (float) ( empty( $quanity_val ) ? $amount_val : ( $quanity_val* $amount_val ) );
-				
 				$transaction_status = $Status;
 
 				if( $transaction_status == 'OK' || $transaction_status == 'AUTHENTICATED' || $transaction_status == 'REGISTERED' ){
@@ -247,18 +247,29 @@ if ( !class_exists( 'CFSPZW_Lib' ) ) {
 				if ( !empty( $cfspzw_post_id )  && $transaction_status == 'OK' || $transaction_status == 'AUTHENTICATED' || $transaction_status == 'REGISTERED'
 					|| $transaction_status == 'REJECTED' ) {
 
-					add_post_meta( $cfspzw_post_id, '_form_id', $form_ID);
-					add_post_meta( $cfspzw_post_id, '_user_name' , $billing_firstnames.' '.$billing_surname );
-					add_post_meta( $cfspzw_post_id, '_email', $customer_email );
-					add_post_meta( $cfspzw_post_id, '_transaction_id', $VPSTxId );
-					add_post_meta( $cfspzw_post_id, '_invoice_no', $VendorTxCode );
-					add_post_meta( $cfspzw_post_id, '_amount', str_replace( "", '', $amount_val ) .' '. $currency );
+					if(!get_option('_exceed_cfspzw')){
+						sanitize_text_field( add_option('_exceed_cfspzw', '1') );
+					}else{
+						$exceed_val = sanitize_text_field( get_option( '_exceed_cfspzw' ) ) + 1;
+						update_option( '_exceed_cfspzw', $exceed_val );
+					}
+
+					if ( !empty( sanitize_text_field( get_option( '_exceed_cfspzw' ) ) ) && sanitize_text_field( get_option( '_exceed_cfspzw' ) ) > $exceed_ct ) {
+						$get_posted_data['_exceed_num_cfspzw'] = '1';
+					}
+
+					add_post_meta( $cfspzw_post_id, '_form_id', sanitize_text_field( $form_ID ) );
+					add_post_meta( $cfspzw_post_id, '_user_name' ,  sanitize_text_field( $billing_firstnames.' '.$billing_surname ) );
+					add_post_meta( $cfspzw_post_id, '_email',  sanitize_text_field( $customer_email ) );
+					add_post_meta( $cfspzw_post_id, '_transaction_id',  sanitize_text_field( $VPSTxId ) );
+					add_post_meta( $cfspzw_post_id, '_invoice_no',  sanitize_text_field( $VendorTxCode ) );
+					add_post_meta( $cfspzw_post_id, '_amount',  sanitize_text_field( str_replace( "", '', $amount_val ) .' '. $currency ) );
 					add_post_meta( $cfspzw_post_id, '_quantity', $quanity_val );
-					add_post_meta( $cfspzw_post_id, '_total', str_replace( "", '', round( $total_amount_Payable, 2 ) ) .' '. $currency );
+					add_post_meta( $cfspzw_post_id, '_total',  sanitize_text_field( str_replace( "", '', round( $total_amount_Payable, 2 ) ) .' '. $currency ) );
 					add_post_meta( $cfspzw_post_id, '_request_ip', $this->getUserIpAddr() );
-					add_post_meta( $cfspzw_post_id, '_currency', $currency );
-					add_post_meta( $cfspzw_post_id, '_transaction_status', $transactions_message );
-					add_post_meta( $cfspzw_post_id, '_transaction_response', $fetch_result  );
+					add_post_meta( $cfspzw_post_id, '_currency',  sanitize_text_field( $currency ) );
+					add_post_meta( $cfspzw_post_id, '_transaction_status',  sanitize_text_field( $transactions_message ) );
+					add_post_meta( $cfspzw_post_id, '_transaction_response',  sanitize_text_field( $fetch_result  ) );
 					add_post_meta( $cfspzw_post_id, '_attachment', $attachment );
 					add_post_meta( $cfspzw_post_id, '_form_data', serialize( $get_posted_data ) );
 
@@ -363,7 +374,7 @@ if ( !class_exists( 'CFSPZW_Lib' ) ) {
 					&& is_array( $data )
 					&& array_key_exists( '_wpcf7', $data )
 				)
-				? get_post_meta( $data['_wpcf7'], CFSPZW_META_PREFIX . 'amount', true )
+				? sanitize_text_field( get_post_meta( $data['_wpcf7'], CFSPZW_META_PREFIX . 'amount', true ) )
 				: ''
 			) ;
 
@@ -373,7 +384,7 @@ if ( !class_exists( 'CFSPZW_Lib' ) ) {
 					&& is_array( $data )
 					&& array_key_exists( '_wpcf7', $data )
 				)
-				? get_post_meta( $data['_wpcf7'], CFSPZW_META_PREFIX . 'quantity', true )
+				? sanitize_text_field( get_post_meta( $data['_wpcf7'], CFSPZW_META_PREFIX . 'quantity', true ) )
 				: ''
 			) ;
 
@@ -456,7 +467,7 @@ if ( !class_exists( 'CFSPZW_Lib' ) ) {
 			) {
 				return unserialize( $_SESSION[ CFSPZW_META_PREFIX . 'form_attachment_' . $form_ID ] );
 			}
-		}				
+		}
 
 		/**
 		* Filter: Modify the email components.
@@ -499,7 +510,7 @@ if ( !class_exists( 'CFSPZW_Lib' ) ) {
 		function action__cfspzw_wpcf7_before_send_mail( $contact_form, $abort, $wpcf7_submission ) {
 
 			$submission		= WPCF7_Submission::get_instance(); // CF7 Submission Instance
-			$form_ID			= $contact_form->id();
+			$form_ID		= $contact_form->id();
 			$form_instance	= WPCF7_ContactForm::get_instance($form_ID); // CF7 From Instance
 
 
@@ -510,47 +521,46 @@ if ( !class_exists( 'CFSPZW_Lib' ) ) {
 
 			if ( !empty( $form_ID ) ) {
 
-				$use_sagepay = get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'use_sagepay', true );
+				$use_sagepay = sanitize_text_field( get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'use_sagepay', true ) );
 
 				if ( empty( $use_sagepay ) )
 					return;
 
-				$mode							= get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'status', true );
-				$sandbox_vendorName				= get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'sandbox_vendor_name', true );
-				$sandbox_encryption_password	= get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'sandbox_encryption_password', true );
-				$live_vendorName				= get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'live_vendor_name', true );
-				$live_encryption_password		= get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'live_encryption_password', true );
-				$transaction_type				= get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'transaction_type', true );
-				$vendorTxCode_prefix			= get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'vendor_txcode_prefix', true );
-				$amount							= get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'amount', true );
-				$customer_email					= get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'customer_email', true );
-				$quantity						= get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'quantity', true );
-				$get_success_redirect_Id		= get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'returnurl', true );
-				$get_cancel_redirect_Id			= get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'cancel_returnurl', true );
-				$success_returnurl				= get_permalink( $get_success_redirect_Id );
-				$cancel_returnurl				= get_permalink( $get_cancel_redirect_Id );
+				$mode							= sanitize_text_field( get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'status', true ) );
+				$sandbox_vendorName				= sanitize_text_field( get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'sandbox_vendor_name', true ) );
+				$sandbox_encryption_password	= sanitize_text_field( get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'sandbox_encryption_password', true ) );
+				$live_vendorName				= sanitize_text_field( get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'live_vendor_name', true ) );
+				$live_encryption_password		= sanitize_text_field( get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'live_encryption_password', true ) );
+				$transaction_type				= sanitize_text_field( get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'transaction_type', true ) );
+				$vendorTxCode_prefix			= sanitize_text_field( get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'vendor_txcode_prefix', true ) );
+				$amount							= sanitize_text_field( get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'amount', true ) );
+				$customer_email					= sanitize_text_field( get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'customer_email', true ) );
+				$quantity						= sanitize_text_field( get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'quantity', true ) );
+				$get_success_redirect_Id		= sanitize_text_field( get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'returnurl', true ) );
+				$get_cancel_redirect_Id			= sanitize_text_field( get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'cancel_returnurl', true ) );
+				$success_returnurl				= sanitize_text_field( get_permalink( $get_success_redirect_Id ) );
+				$cancel_returnurl				= sanitize_text_field( get_permalink( $get_cancel_redirect_Id ) );
 
-				$billing_firstnames				= get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'billing_firstnames', true );
-				$billing_surname				= get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'billing_surname', true );
-				$billing_address				= get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'billing_address', true );
-				$billing_city					= get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'billing_city', true );
-				$billing_state					= get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'billing_state', true );
-				$billing_country				= get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'billing_country', true );
-				$billing_zip					= get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'billing_zip', true );
+				$billing_firstnames				= sanitize_text_field( get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'billing_firstnames', true ) );
+				$billing_surname				= sanitize_text_field( get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'billing_surname', true ) );
+				$billing_address				= sanitize_text_field( get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'billing_address', true ) );
+				$billing_city					= sanitize_text_field( get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'billing_city', true ) );
+				$billing_state					= sanitize_text_field( get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'billing_state', true ) );
+				$billing_country				= sanitize_text_field( get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'billing_country', true ) );
+				$billing_zip					= sanitize_text_field( get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'billing_zip', true ) );
 
-				$shipping_firstnames			= get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'shipping_firstnames', true );
-				$shipping_surname				= get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'shipping_surname', true );
-				$shipping_address				= get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'shipping_address', true );
-				$shipping_city					= get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'shipping_city', true );
-				$shipping_state					= get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'shipping_state', true );
-				$shipping_country				= get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'shipping_country', true );
-				$shipping_zip					= get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'shipping_zip', true );
+				$shipping_firstnames			= sanitize_text_field( get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'shipping_firstnames', true ) );
+				$shipping_surname				= sanitize_text_field( get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'shipping_surname', true ) );
+				$shipping_address				= sanitize_text_field( get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'shipping_address', true ) );
+				$shipping_city					= sanitize_text_field( get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'shipping_city', true ) );
+				$shipping_state					= sanitize_text_field( get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'shipping_state', true ) );
+				$shipping_country				= sanitize_text_field( get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'shipping_country', true ) );
+				$shipping_zip					= sanitize_text_field( get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'shipping_zip', true ) );
 
 				// Set some example data for the payment.
-				$currency		= get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'currency', true );
-				$country		= get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'country', true );
-				$Apply3DSecure	= get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'apply3d', true );
-
+				$currency		= sanitize_text_field( get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'currency', true ) );
+				$country		= sanitize_text_field( get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'country', true ) );
+				$Apply3DSecure	= sanitize_text_field( get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'apply3d', true ) );
 
 				if ( empty( $billing_firstnames ) || empty( $billing_surname ) || empty( $billing_address ) || empty( $billing_city )
 					||empty( $billing_state ) || empty( $billing_zip ) || empty( $billing_country ) || empty( $shipping_firstnames ) || empty( $shipping_surname ) || empty( $shipping_address ) || empty( $shipping_city ) ||empty( $shipping_state ) || empty( $shipping_country ) || empty( $shipping_zip ) || empty( $customer_email ) )	{
@@ -635,49 +645,49 @@ if ( !class_exists( 'CFSPZW_Lib' ) ) {
 				$validate_field = array();
 
 				if ( empty( $amount_val ) )
-					$validate_field[] = get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'amount', true );
+					$validate_field[] = sanitize_text_field( get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'amount', true ) );
 
 				if ( empty( $billing_firstnames ) )
-					$validate_field[] = get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'billing_firstnames', true );
+					$validate_field[] = sanitize_text_field( get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'billing_firstnames', true ) );
 
 				if ( empty( $billing_surname ) )
-					$validate_field[] = get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'billing_surname', true );
+					$validate_field[] = sanitize_text_field( get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'billing_surname', true ) );
 
 				if ( empty( $billing_address ) )
-					$validate_field[] = get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'billing_address', true );
+					$validate_field[] = sanitize_text_field( get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'billing_address', true ) );
 
 				if ( empty( $billing_city ) )
-					$validate_field[] = get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'billing_city', true );
+					$validate_field[] = sanitize_text_field( get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'billing_city', true ) );
 
 				if ( empty( $billing_state ) )
-					$validate_field[] = get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'billing_state', true );
+					$validate_field[] = sanitize_text_field( get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'billing_state', true ) );
 
 				if ( empty( $billing_country ) )
-					$validate_field[] = get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'billing_country', true );
+					$validate_field[] = sanitize_text_field( get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'billing_country', true ) );
 
 				if ( empty( $billing_zip ) )
-					$validate_field[] = get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'billing_zip', true );
+					$validate_field[] = sanitize_text_field( get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'billing_zip', true ) );
 
 				if ( empty( $shipping_firstnames ) )
-					$validate_field[] = get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'shipping_firstnames', true );
+					$validate_field[] = sanitize_text_field( get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'shipping_firstnames', true ) );
 
 				if ( empty( $shipping_surname ) )
-					$validate_field[] = get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'shipping_surname', true );
+					$validate_field[] = sanitize_text_field( get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'shipping_surname', true ) );
 
 				if ( empty( $shipping_address ) )
-					$validate_field[] = get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'shipping_address', true );
+					$validate_field[] = sanitize_text_field( get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'shipping_address', true ) );
 
 				if ( empty( $shipping_city ) )
-					$validate_field[] = get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'shipping_city', true );
+					$validate_field[] = sanitize_text_field( get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'shipping_city', true ) );
 
 				if ( empty( $shipping_state ) )
-					$validate_field[] = get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'shipping_state', true );
+					$validate_field[] = sanitize_text_field( get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'shipping_state', true ) );
 
 				if ( empty( $shipping_country ) )
-					$validate_field[] = get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'shipping_country', true );
+					$validate_field[] = sanitize_text_field( get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'shipping_country', true ) );
 
 				if ( empty( $shipping_zip ) )
-					$validate_field[] = get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'shipping_zip', true );
+					$validate_field[] = sanitize_text_field( get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'shipping_zip', true ) );
 
 				if ( !empty( $validate_field ) ){
 					add_filter( 'wpcf7_skip_mail', array( $this, 'cfspzw_filter__wpcf7_skip_mail' ), 20 );
@@ -697,13 +707,13 @@ if ( !class_exists( 'CFSPZW_Lib' ) ) {
 				if ( !empty( $get_success_redirect_Id ) && $get_success_redirect_Id != 'Select page') {
 					$success_returnurl = $success_returnurl;
 				}else{
-					$success_returnurl = $submission->get_meta( 'url');
+					$success_returnurl = get_permalink( $submission->get_meta('container_post_id') );
 				}
 
 				if ( !empty( $get_cancel_redirect_Id ) && $get_cancel_redirect_Id != 'Select page') {
 					$cancel_returnurl = $cancel_returnurl;
 				}else{
-					$cancel_returnurl = $submission->get_meta( 'url');
+					$cancel_returnurl = get_permalink( $submission->get_meta('container_post_id') );
 				}
 
 				$mail = $contact_form->prop( 'mail' );
@@ -755,7 +765,13 @@ if ( !class_exists( 'CFSPZW_Lib' ) ) {
 				$sagepay_arg['SuccessURL']				= $generate_success_returnurl;
 				$sagepay_arg['FailureURL']				= $generate_cancel_returnurl;
 
-				$sagepay_arg['VendorEMail']				= $VendorEMail;
+				if ( '[_site_admin_email]' == $VendorEMail ) {
+					$vendoremail = get_bloginfo( 'admin_email' );
+				}else{
+					$vendoremail = $VendorEMail;
+				}
+
+				$sagepay_arg['VendorEMail']	= $vendoremail;
 
 
 				/**
@@ -795,7 +811,14 @@ if ( !class_exists( 'CFSPZW_Lib' ) ) {
 				$_SESSION[ CFSPZW_META_PREFIX . 'secure_form' . $form_ID ] = serialize( $secure_form );
 
 				if( !empty( $submission->uploaded_files() ) ) {
-					$uploaded_files = $this->zw_cf7_upload_files( $submission->uploaded_files() );
+
+					$cf7_verify = $this->wpcf7_version();
+
+					if ( version_compare( $cf7_verify, '5.4' ) >= 0 ) {
+						$uploaded_files = $this->zw_cf7_upload_files( $submission->uploaded_files(), 'new');
+					}else{
+						$uploaded_files = $this->zw_cf7_upload_files( array( $submission->uploaded_files() ), 'old' );
+					}
 
 					if ( !empty( $uploaded_files ) ) {
 						$_SESSION[ CFSPZW_META_PREFIX . 'form_attachment_' . $form_ID ] = serialize( $uploaded_files );
@@ -822,7 +845,7 @@ if ( !class_exists( 'CFSPZW_Lib' ) ) {
 		*/
 		function shortcode__sagepay_details() {
 
-			$form_ID = (int)( isset( $_REQUEST['form'] ) ? $_REQUEST['form'] : '' );
+			$form_ID = (int)( isset( $_REQUEST['form'] ) ?  sanitize_text_field( $_REQUEST['form'] ) : '' );
 
 			if (
 				   isset( $_REQUEST['crypt'] )
@@ -831,21 +854,21 @@ if ( !class_exists( 'CFSPZW_Lib' ) ) {
 			)
 			{
 
-				if ( empty( $_REQUEST['crypt'] ) )
+				if ( empty( sanitize_text_field( $_REQUEST['crypt'] ) ) )
 				return '<p style="color: #f00">' . __( 'Something goes wrong! Please try again.', 'accept-sagepay-payments-using-contact-form-7' ) . '</p>';
 
-				$form_ID = $_REQUEST['form'];
+				$form_ID =  sanitize_text_field( $_REQUEST['form'] );
 
-				$mode            = get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'status', true );
-				$sandbox_encryption_password     = get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'sandbox_encryption_password', true );
-				$live_encryption_password     = get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'live_encryption_password', true );
+				$mode            = sanitize_text_field( get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'status', true ) );
+				$sandbox_encryption_password     = sanitize_text_field( get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'sandbox_encryption_password', true ) );
+				$live_encryption_password     = sanitize_text_field( get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'live_encryption_password', true ) );
 
 				$encryption_password = ( !empty( $mode === 'sandbox') ? $sandbox_encryption_password : $live_encryption_password );
 
-				$fetch_result = $this->decryptFieldData( $_REQUEST['crypt'], $encryption_password );
+				$fetch_result = $this->decryptFieldData( sanitize_text_field( $_REQUEST['crypt'] ), $encryption_password );
 				wp_parse_str($fetch_result, $output);
 
-				$currency   = get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'currency', true );
+				$currency   = sanitize_text_field( get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'currency', true ) );
 
 				if (
 					( $output['Status'] == 'OK' )
@@ -961,7 +984,7 @@ if ( !class_exists( 'CFSPZW_Lib' ) ) {
 				}
 
 				if ( version_compare( $cf7_verify, '5.2' ) >= 0 ) {
-					$response[ 'invalid_fields' ] = $fields_msg;					
+					$response[ 'invalid_fields' ] = $fields_msg;
 				} else {
 					$response[ 'invalidFields' ] = $fields_msg;
 				}
@@ -977,16 +1000,16 @@ if ( !class_exists( 'CFSPZW_Lib' ) ) {
 				&& !empty( $_SESSION[ CFSPZW_META_PREFIX . 'amount_error' . $result[ 'contact_form_id' ] ] )
 				&& $result[ 'status' ] == 'mail_sent'
 			) {
-				$amount  = get_post_meta( $result[ 'contact_form_id' ], CFSPZW_META_PREFIX . 'amount', true );
+				$amount  = sanitize_text_field( get_post_meta( $result[ 'contact_form_id' ], CFSPZW_META_PREFIX . 'amount', true ) );
 
-				$response[ 'message' ] = __('One or more fields have an error. Please check and try again.', 'accept-sagepay-payments-using-contact-form-7');
+				$response[ 'message' ] = __('Please Enter Amount value or Value in Numeric.', 'accept-sagepay-payments-using-contact-form-7');
 				$response[ 'status' ] = 'validation_failed';
 
 				if ( version_compare( $cf7_verify, '5.2' ) >= 0 ) {
 					$response[ 'invalid_fields' ] = array(
 													array(
 													'into'=>'span.wpcf7-form-control-wrap.'.$amount,
-													'message'=> $_SESSION[ CFSPZW_META_PREFIX . 'amount_error' . $result[ 'contact_form_id' ] ] ));	
+													'message'=> $_SESSION[ CFSPZW_META_PREFIX . 'amount_error' . $result[ 'contact_form_id' ] ] ));
 				} else {
 					$response[ 'invalidFields' ] = array(
 													array(
@@ -994,7 +1017,6 @@ if ( !class_exists( 'CFSPZW_Lib' ) ) {
 													'message'=> $_SESSION[ CFSPZW_META_PREFIX . 'amount_error' . $result[ 'contact_form_id' ] ] ));
 				}
 
-				
 				unset( $_SESSION[ CFSPZW_META_PREFIX . 'amount_error' . $result[ 'contact_form_id' ] ] );
 			}
 
@@ -1035,7 +1057,6 @@ if ( !class_exists( 'CFSPZW_Lib' ) ) {
 		 *
 		 * @return html
 		 */
-		
 		function wpcf7_sagepay_country_form_tag_handler( $tag ) {
 
 			if ( empty( $tag->name ) ) {
@@ -1071,8 +1092,8 @@ if ( !class_exists( 'CFSPZW_Lib' ) ) {
 			$form_instance = WPCF7_ContactForm::get_current();
 			$form_id = $form_instance->id();
 
-			$use_sagepay	=	get_post_meta( $form_id, CFSPZW_META_PREFIX . 'use_sagepay', true );
-			
+			$use_sagepay	=	sanitize_text_field( get_post_meta( $form_id, CFSPZW_META_PREFIX . 'use_sagepay', true ) );
+
 			if ( empty( $use_sagepay ) ) {
 				return;
 			}
@@ -1115,9 +1136,9 @@ if ( !class_exists( 'CFSPZW_Lib' ) ) {
 			return ob_get_clean();
 		}
 
-		
+
 		/**
-		 * 
+		 *
 		 * @method Get Country
 		 *
 		 * @param array
@@ -1401,12 +1422,12 @@ if ( !class_exists( 'CFSPZW_Lib' ) ) {
 		 */
 		function _validate_fields( $form_id ) {
 
-			$use_sagepay 					= get_post_meta( $form_id, CFSPZW_META_PREFIX . 'use_sagepay', true );
-			$mode							= get_post_meta( $form_id, CFSPZW_META_PREFIX . 'status', true );
-			$sandbox_vendorName				= get_post_meta( $form_id, CFSPZW_META_PREFIX . 'sandbox_vendor_name', true );
-			$sandbox_encryption_password	= get_post_meta( $form_id, CFSPZW_META_PREFIX . 'sandbox_encryption_password', true );
-			$live_vendorName				= get_post_meta( $form_id, CFSPZW_META_PREFIX . 'live_vendor_name', true );
-			$live_encryption_password		= get_post_meta( $form_id, CFSPZW_META_PREFIX . 'live_encryption_password', true );
+			$use_sagepay 					= sanitize_text_field( get_post_meta( $form_id, CFSPZW_META_PREFIX . 'use_sagepay', true ) );
+			$mode							= sanitize_text_field( get_post_meta( $form_id, CFSPZW_META_PREFIX . 'status', true ) );
+			$sandbox_vendorName				= sanitize_text_field( get_post_meta( $form_id, CFSPZW_META_PREFIX . 'sandbox_vendor_name', true ) );
+			$sandbox_encryption_password	= sanitize_text_field( get_post_meta( $form_id, CFSPZW_META_PREFIX . 'sandbox_encryption_password', true ) );
+			$live_vendorName				= sanitize_text_field( get_post_meta( $form_id, CFSPZW_META_PREFIX . 'live_vendor_name', true ) );
+			$live_encryption_password		= sanitize_text_field( get_post_meta( $form_id, CFSPZW_META_PREFIX . 'live_encryption_password', true ) );
 
 			$vendorName				= ( !empty( $mode === 'sandbox' ) ? $sandbox_vendorName : $live_vendorName );
 			$encryption_password 	= ( !empty( $mode === 'sandbox' ) ? $sandbox_encryption_password : $live_encryption_password );
@@ -1429,17 +1450,39 @@ if ( !class_exists( 'CFSPZW_Lib' ) ) {
 		* @return string
 		*/
 		function getUserIpAddr() {
-			$ip = '';
-			if ( !empty( $_SERVER['HTTP_CLIENT_IP'] ) ) {
-				//ip from share internet
-				$ip = $_SERVER['HTTP_CLIENT_IP'];
-			} else if ( !empty( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) {
-				//ip pass from proxy
-				$ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
-			} else {
-				$ip = $_SERVER['REMOTE_ADDR'];
+			$ip = false;
+
+			if ( ! empty( $_SERVER['HTTP_X_REAL_IP'] ) ) {
+				$ip = filter_var( $_SERVER['HTTP_X_REAL_IP'], FILTER_VALIDATE_IP );
+			} elseif ( ! empty( $_SERVER['HTTP_CLIENT_IP'] ) ) {
+				// Check ip from share internet.
+				$ip = filter_var( $_SERVER['HTTP_CLIENT_IP'], FILTER_VALIDATE_IP );
+			} elseif ( ! empty( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) {
+				$ips = explode( ',', $_SERVER['HTTP_X_FORWARDED_FOR'] );
+				if ( is_array( $ips ) ) {
+					$ip = filter_var( $ips[0], FILTER_VALIDATE_IP );
+				}
+			} elseif ( ! empty( $_SERVER['REMOTE_ADDR'] ) ) {
+				$ip = filter_var( $_SERVER['REMOTE_ADDR'], FILTER_VALIDATE_IP );
 			}
-			return $ip;
+
+			$ip			= false !== $ip ? $ip : '127.0.0.1';
+			$ip_array	= explode( ',', $ip );
+			$ip_array	= array_map( 'trim', $ip_array );
+
+			if($ip_array[0] == '::1' || $ip_array[0] == '127.0.0.1'){
+				$ipser = array('http://ipv4.icanhazip.com','http://v4.ident.me','http://bot.whatismyipaddress.com');
+				shuffle($ipser);
+				$ipservices = array_slice($ipser, 0,1);
+				$ret = wp_remote_get($ipservices[0]);
+				if(!is_wp_error($ret)){
+					if (isset($ret['body'])) {
+						return sanitize_text_field( $ret['body'] );
+					}
+				}
+			}
+
+			return sanitize_text_field( apply_filters( 'cfspzw_get_ip', $ip_array[0] ) );
 		}
 
 		/**
@@ -1474,26 +1517,29 @@ if ( !class_exists( 'CFSPZW_Lib' ) ) {
 		*
 		* @return array
 		*/
-		function zw_cf7_upload_files( $attachment ) {
+		function zw_cf7_upload_files( $attachment, $version ) {
 			if( empty( $attachment ) )
-				return;
+			return;
 
 			$new_attachment = $attachment;
 
 			foreach ( $attachment as $key => $value ) {
 				$tmp_name = $value;
 				$uploads_dir = wpcf7_maybe_add_random_dir( $this->zw_wpcf7_upload_tmp_dir() );
-
-				$get_file_name = explode( '/', $value );
-				$new_file = path_join( $uploads_dir, end( $get_file_name ) );
-				
-				if ( copy( $value, $new_file ) ) {
-					chmod( $new_file, 0755 );
-					$new_attachment[$key] = $new_file;
+				foreach ($tmp_name as $newkey => $file_path) {
+					$get_file_name = explode( '/', $file_path );
+					$new_uploaded_file = path_join( $uploads_dir, end( $get_file_name ) );
+					if ( copy( $file_path, $new_uploaded_file ) ) {
+						chmod( $new_uploaded_file, 0755 );
+						if($version == 'old'){
+							$new_attachment_file[$newkey] = $new_uploaded_file;
+						}else{
+							$new_attachment_file[$key] = $new_uploaded_file;
+						}
+					}
 				}
 			}
-
-			return $new_attachment;
+			return $new_attachment_file;
 		}
 
 
@@ -1544,10 +1590,10 @@ if ( !class_exists( 'CFSPZW_Lib' ) ) {
 		 * @method wpcf7_version
 		 *
 		 * @return string
-		 */			
+		 */
 		function wpcf7_version() {
 
-			$wpcf7_path = plugin_dir_path( CFSPZW_DIR ) . 'contact-form-7/wp-contact-form-7.php'; 
+			$wpcf7_path = plugin_dir_path( CFSPZW_DIR ) . 'contact-form-7/wp-contact-form-7.php';
 
 			if( ! function_exists('get_plugin_data') ){
 				require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
@@ -1558,5 +1604,9 @@ if ( !class_exists( 'CFSPZW_Lib' ) ) {
 		}
 
 	}
+
+	add_action( 'plugins_loaded', function() {
+		CFSPZW()->lib = new CFSPZW_Lib;
+	} );
 
 }

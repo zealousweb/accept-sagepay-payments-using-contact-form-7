@@ -6,7 +6,7 @@
 *
 * @package WordPress
 * @subpackage Accept Sagepay Payments Using Contact Form 7
-* @since 1.0
+* @since 1.2
 */
 
 // Exit if accessed directly
@@ -101,16 +101,8 @@ if ( !class_exists( 'CFSPZW_Admin_Filter' ) ) {
 				return $links;
 			}
 			
-			$licencePage = admin_url("admin.php?page=cfspzw-license-activation");
-
-			$licencepageLink = '<a  href="'.$licencePage.'">' . __( 'Licensing Page', 'accept-sagepay-payments-using-contact-form-7' ) . '</a>';
-			array_unshift( $links , $licencepageLink);
-
 			$documentLink = '<a target="_blank" href="'.CFSPZW_DOCUMENT.'">' . __( 'Document Link', 'accept-sagepay-payments-using-contact-form-7' ) . '</a>';
 			array_unshift( $links , $documentLink);
-
-			$supportPageLink = '<a  href="'.CFSPZW_SUPPORT.'">' . __( 'Support Link', 'accept-sagepay-payments-using-contact-form-7' ) . '</a>';
-			array_unshift( $links , $supportPageLink);
 
 			return $links;
 		}
@@ -191,4 +183,8 @@ if ( !class_exists( 'CFSPZW_Admin_Filter' ) ) {
 
 		}
 	}
+
+	add_action( 'plugins_loaded', function() {
+		CFSPZW()->admin->filter = new CFSPZW_Admin_Filter;
+	} );
 }

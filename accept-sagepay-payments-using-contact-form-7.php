@@ -1,13 +1,13 @@
 <?php
 /**
-* Plugin Name: Accept Sagepay Payments Using Contact Form 7
-* Plugin URL: https://www.zealousweb.com/wordpress-plugins/product/accept-sagepay-payments-using-contact-form-7/
-* Description:  This plugin will integrate Sagepay payment gateway for making your payments through Contact Form 7.
-* Version: 1.0
-* Author: ZealousWeb Technologies
+* Plugin Name: Accept SagePay Payments Using Contact Form 7
+* Plugin URL: https://wordpress.org/plugins/accept-sagepay-payments-using-contact-form-7/
+* Description: This plugin will integrate Sagepay payment gateway for making your payments through Contact Form 7.
+* Version: 1.2
+* Author: ZealousWeb
 * Author URI: https://www.zealousweb.com
 * Developer: The Zealousweb Team
-* Support: opensource@zealousweb.com
+* Developer E-Mail: opensource@zealousweb.com
 * Text Domain: accept-sagepay-payments-using-contact-form-7
 * Domain Path: /languages
 *
@@ -23,11 +23,11 @@ if ( !defined( 'ABSPATH' ) ) exit;
 * Basic plugin definitions
 *
 * @package Accept Sagepay Payments using Contact Form 7
-* @since 1.0
+* @since 1.2
 */
 
 if ( !defined( 'CFSPZW_VERSION' ) ) {
-	define( 'CFSPZW_VERSION', '1.0' ); // Version of plugin
+	define( 'CFSPZW_VERSION', '1.2' ); // Version of plugin
 }
 
 if ( !defined( 'CFSPZW_FILE' ) ) {
@@ -59,11 +59,15 @@ if ( !defined( 'CFSPZW_POST_TYPE' ) ) {
 }
 
 if ( !defined( 'CFSPZW_SUPPORT' ) ) {
-	define( 'CFSPZW_SUPPORT', 'mailto:opensource@zealousweb.com' ); // Plugin Support Link
+	define( 'CFSPZW_SUPPORT', 'https://zealousweb.com/support/' ); // Plugin Support Link
 }
 
 if ( !defined( 'CFSPZW_DOCUMENT' ) ) {
 	define( 'CFSPZW_DOCUMENT', 'https://www.zealousweb.com/documentation/wordpress-plugins/accept-sagepay-payments-using-contact-form-7/' ); // Plugin Document Link
+}
+
+if ( !defined( 'CFSPZW_PRODUCT_LINK' ) ) {
+	define( 'CFSPZW_PRODUCT_LINK', 'https://www.zealousweb.com/wordpress-plugins/accept-sagepay-payments-using-contact-form-7/' ); // Plugin Product Link
 }
 
 /**

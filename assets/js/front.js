@@ -13,7 +13,7 @@ jQuery( document ).ready( function( $ ) {
 			setTimeout(function(){
 				var contactform_id = event.detail.contactFormId;
 				var formdata = event.detail.apiResponse.redirect_form;
-				document.getElementById(event.detail.id).innerHTML += formdata;
+				document.getElementById(event.detail.unitTag).innerHTML += formdata;
 				document.getElementById("sagepay-payment-form-"+event.detail.contactFormId).submit();
 			}, 1000);
 		}
