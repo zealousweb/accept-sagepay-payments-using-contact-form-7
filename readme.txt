@@ -43,6 +43,18 @@ We have released the PRO version of this plugin with extra advantageous features
 * Facility to import, export the list of entire SagePay unlimited Entries.
 * In the list of SagePay forms entry in the admin side, you can view payment transactions unlimited Entries.
 
+== OUR OTHER PLUGINS ==
+
+* <strong>[Accept PayPal Payments Using Contact Form 7 Pro](https://www.zealousweb.com/store/accept-paypal-payments-using-contact-form-7-pro)</strong>
+* <strong>[Accept Stripe Payments Using Contact Form 7 Pro](https://www.zealousweb.com/store/accept-stripe-payments-using-contact-form-7-pro)</strong>
+* <strong>[Accept Authorize.NET Payments Using Contact Form 7 Pro](https://www.zealousweb.com/store/accept-authorize-net-payments-using-contact-form-7-pro)</strong>
+* <strong>[Accept Elavon Payments Using Contact Form 7 Pro](https://www.zealousweb.com/store/accept-elavon-payments-using-contact-form-7-pro)</strong>
+* <strong>[Accept 2Checkout Payments Using Contact Form 7 Pro](https://www.zealousweb.com/store/accept-2checkout-payments-using-contact-form-7-pro)</strong>
+* <strong>[Accept SagePay(opayo) Payments Using Contact Form 7 Pro](https://www.zealousweb.com/store/accept-sage-pay-payments-using-contact-form-7-pro)</strong>
+* <strong>[User Registration Using Contact Form 7 Pro](https://www.zealousweb.com/store/user-registration-using-contact-form-7-pro)</strong>
+* <strong>[Abandoned Contact Form 7 Pro](https://www.zealousweb.com/store/abandoned-contact-form-7-pro/)</strong>
+* <strong>[Custom Product Options WooCommerce Pro](https://www.zealousweb.com/store/custom-product-options-woocommerce-pro)</strong>
+ 
 == Plugin Requirement ==
 
 PHP version : 5.6 and latest
@@ -66,7 +78,7 @@ Furthermore, suppose you need technical assistance to integrate ‘Accept SagePa
 
 We also offer custom WordPress extension development and WordPress theme design services to fulfill your e-commerce objectives.
 
-Thank you for choosing a Plugin developed by 
+Thank you for choosing a Plugin developed by
 <strong>[ZealousWeb](https://www.zealousweb.com)</strong>!
 
 
