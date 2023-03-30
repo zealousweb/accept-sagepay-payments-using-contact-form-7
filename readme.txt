@@ -3,11 +3,11 @@ Contributors: zealopensource
 Donate link: http://www.zealousweb.com/payment/
 Tags: eCommerce, payment gateway, WordPress, SagePay server,SagePay go, contact form 7
 Requires at least: 4.9
-Tested up to: 5.6.2
-Requires PHP: 5.6
-Stable tag: 1.2
+Tested up to: 6.0.1
+Requires PHP: 5.6 and above
+Stable tag: 1.3
 License: GPLv3 or later License
-Version: 1.2
+Version: 1.3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
 == Description ==
@@ -90,12 +90,15 @@ For that you need to add "[sagepay-details]" tag in page.
 
 == Changelog ==
 
-= 1.0.0 =
-* Initial Release
+= 1.3 =
+* Fix Amount Field error msg update
+
+= 1.2 =
+* Fix minor bugs and improve functionality
 
 = 1.1 =
 * Compatibility with new cf7 version
 * Fix minor bugs and improve functionality
 
-= 1.2 =
-* Fix minor bugs and improve functionality
+= 1.0.0 =
+* Initial Release

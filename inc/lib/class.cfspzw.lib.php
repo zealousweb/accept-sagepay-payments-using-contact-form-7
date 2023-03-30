@@ -82,7 +82,7 @@ if ( !class_exists( 'CFSPZW_Lib' ) ) {
 			$cf7_verify = $this->wpcf7_version();
 
 			if ( version_compare( $cf7_verify, '5.2' ) >= 0 ) {
-				add_filter( 'wpcf7_feedback_response',	array( $this, 'filter__cfspzw_wpcf7_ajax_json_echo' ), 20, 2 );				
+				add_filter( 'wpcf7_feedback_response',	array( $this, 'filter__cfspzw_wpcf7_ajax_json_echo' ), 20, 2 );
 			} else{
 				add_filter( 'wpcf7_ajax_json_echo',	array( $this, 'filter__cfspzw_wpcf7_ajax_json_echo' ), 20, 2 );
 			}
@@ -144,7 +144,7 @@ if ( !class_exists( 'CFSPZW_Lib' ) ) {
 				$sandbox_encryption_password	= sanitize_text_field( get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'sandbox_encryption_password', true ) );
 				$live_encryption_password		= sanitize_text_field( get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'live_encryption_password', true ) );
 
-				$encryption_password = ( !empty( $mode ) ? $sandbox_encryption_password : $live_encryption_password );
+				$encryption_password = ( $mode!= 'live' ? $sandbox_encryption_password : $live_encryption_password );
 
 				$fetch_result = $this->decryptFieldData( sanitize_text_field( $_REQUEST['crypt'] ), $encryption_password );
 				wp_parse_str($fetch_result, $output);
@@ -154,7 +154,7 @@ if ( !class_exists( 'CFSPZW_Lib' ) ) {
 				$Status			= $output['Status'];
 				$StatusDetail	= $output['StatusDetail'];
 				$Amount			= $output['Amount'];
-				
+
 				$currency  = sanitize_text_field( get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'currency', true ) );
 
 				$billing_firstnames	= sanitize_text_field( get_post_meta( $form_ID, CFSPZW_META_PREFIX . 'billing_firstnames', true ) );
@@ -197,14 +197,16 @@ if ( !class_exists( 'CFSPZW_Lib' ) ) {
 				}
 
 				$total_amount_Payable = (float) ( empty( $quanity_val ) ? $amount_val : ( $quanity_val* $amount_val ) );
-				
+
 				$transaction_status = $Status;
 
 				if( $transaction_status == 'OK' || $transaction_status == 'AUTHENTICATED' || $transaction_status == 'REGISTERED' ){
+					
 					$transaction_icon = 'success';
 					$bgColor = '#3c763d';
 					$transactions_message = substr( $StatusDetail, 7 );
 				}else{
+					
 					$transaction_icon = 'error';
 					$bgColor = '#a94442';
 					$transactions_message = $StatusDetail;
@@ -252,9 +254,9 @@ if ( !class_exists( 'CFSPZW_Lib' ) ) {
 						sanitize_text_field( add_option('_exceed_cfspzw', '1') );
 					}else{
 						$exceed_val = sanitize_text_field( get_option( '_exceed_cfspzw' ) ) + 1;
-						update_option( '_exceed_cfspzw', $exceed_val );								
+						update_option( '_exceed_cfspzw', $exceed_val );
 					}
-					
+
 					if ( !empty( sanitize_text_field( get_option( '_exceed_cfspzw' ) ) ) && sanitize_text_field( get_option( '_exceed_cfspzw' ) ) > $exceed_ct ) {
 						$get_posted_data['_exceed_num_cfspzw'] = '1';
 					}
@@ -468,7 +470,7 @@ if ( !class_exists( 'CFSPZW_Lib' ) ) {
 			) {
 				return unserialize( $_SESSION[ CFSPZW_META_PREFIX . 'form_attachment_' . $form_ID ] );
 			}
-		}				
+		}
 
 		/**
 		* Filter: Modify the email components.
@@ -721,7 +723,7 @@ if ( !class_exists( 'CFSPZW_Lib' ) ) {
 				$VendorEMail = $mail['recipient'];
 
 				$generate_success_returnurl = add_query_arg( array( 'sagepay_direct' => 'ipn','form' => $form_ID ), $success_returnurl );
-				$generate_cancel_returnurl = add_query_arg( array( 'sagepay_direct' => 'ipn','form' => $form_ID ), $cancel_returnurl );				
+				$generate_cancel_returnurl = add_query_arg( array( 'sagepay_direct' => 'ipn','form' => $form_ID ), $cancel_returnurl );
 
 				$time_stamp = date("ymdHis");
 				$VendorTxCode = $vendorTxCode_prefix.$form_ID . "-" . $time_stamp;
@@ -771,7 +773,7 @@ if ( !class_exists( 'CFSPZW_Lib' ) ) {
 				}else{
 					$vendoremail = $VendorEMail;
 				}
-				
+
 				$sagepay_arg['VendorEMail']	= $vendoremail;
 
 
@@ -985,7 +987,7 @@ if ( !class_exists( 'CFSPZW_Lib' ) ) {
 				}
 
 				if ( version_compare( $cf7_verify, '5.2' ) >= 0 ) {
-					$response[ 'invalid_fields' ] = $fields_msg;					
+					$response[ 'invalid_fields' ] = $fields_msg;
 				} else {
 					$response[ 'invalidFields' ] = $fields_msg;
 				}
@@ -1003,14 +1005,14 @@ if ( !class_exists( 'CFSPZW_Lib' ) ) {
 			) {
 				$amount  = sanitize_text_field( get_post_meta( $result[ 'contact_form_id' ], CFSPZW_META_PREFIX . 'amount', true ) );
 
-				$response[ 'message' ] = __('One or more fields have an error. Please check and try again.', 'accept-sagepay-payments-using-contact-form-7');
+				$response[ 'message' ] = __('Please Enter Amount value or Value in Numeric.', 'accept-sagepay-payments-using-contact-form-7');
 				$response[ 'status' ] = 'validation_failed';
 
 				if ( version_compare( $cf7_verify, '5.2' ) >= 0 ) {
 					$response[ 'invalid_fields' ] = array(
 													array(
 													'into'=>'span.wpcf7-form-control-wrap.'.$amount,
-													'message'=> $_SESSION[ CFSPZW_META_PREFIX . 'amount_error' . $result[ 'contact_form_id' ] ] ));	
+													'message'=> $_SESSION[ CFSPZW_META_PREFIX . 'amount_error' . $result[ 'contact_form_id' ] ] ));
 				} else {
 					$response[ 'invalidFields' ] = array(
 													array(
@@ -1018,7 +1020,7 @@ if ( !class_exists( 'CFSPZW_Lib' ) ) {
 													'message'=> $_SESSION[ CFSPZW_META_PREFIX . 'amount_error' . $result[ 'contact_form_id' ] ] ));
 				}
 
-				
+
 				unset( $_SESSION[ CFSPZW_META_PREFIX . 'amount_error' . $result[ 'contact_form_id' ] ] );
 			}
 
@@ -1059,7 +1061,7 @@ if ( !class_exists( 'CFSPZW_Lib' ) ) {
 		 *
 		 * @return html
 		 */
-		
+
 		function wpcf7_sagepay_country_form_tag_handler( $tag ) {
 
 			if ( empty( $tag->name ) ) {
@@ -1096,7 +1098,7 @@ if ( !class_exists( 'CFSPZW_Lib' ) ) {
 			$form_id = $form_instance->id();
 
 			$use_sagepay	=	sanitize_text_field( get_post_meta( $form_id, CFSPZW_META_PREFIX . 'use_sagepay', true ) );
-			
+
 			if ( empty( $use_sagepay ) ) {
 				return;
 			}
@@ -1139,9 +1141,9 @@ if ( !class_exists( 'CFSPZW_Lib' ) ) {
 			return ob_get_clean();
 		}
 
-		
+
 		/**
-		 * 
+		 *
 		 * @method Get Country
 		 *
 		 * @param array
@@ -1593,10 +1595,10 @@ if ( !class_exists( 'CFSPZW_Lib' ) ) {
 		 * @method wpcf7_version
 		 *
 		 * @return string
-		 */			
+		 */
 		function wpcf7_version() {
 
-			$wpcf7_path = plugin_dir_path( CFSPZW_DIR ) . 'contact-form-7/wp-contact-form-7.php'; 
+			$wpcf7_path = plugin_dir_path( CFSPZW_DIR ) . 'contact-form-7/wp-contact-form-7.php';
 
 			if( ! function_exists('get_plugin_data') ){
 				require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
