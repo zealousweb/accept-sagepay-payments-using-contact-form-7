@@ -5,9 +5,9 @@ Tags: eCommerce, payment gateway, WordPress, SagePay server,SagePay go, contact 
 Requires at least: 4.9
 Tested up to: 6.0.1
 Requires PHP: 5.6 and above
-Stable tag: 1.3
+Stable tag: 1.4
 License: GPLv3 or later License
-Version: 1.3
+Version: 1.4
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
 == Description ==
@@ -89,6 +89,9 @@ For that you need to add "[sagepay-details]" tag in page.
 5. SagePay Transaction Detail Page
 
 == Changelog ==
+
+= 1.4 =
+* Fix Live Payment notification issue.
 
 = 1.3 =
 * Fix Amount Field error msg update
