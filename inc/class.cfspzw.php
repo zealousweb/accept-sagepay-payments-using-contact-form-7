@@ -97,9 +97,9 @@ if ( !class_exists( 'CFSPZW' ) ) {
 		function action__cfspzw_init() {
 
 			/* Initialize backend tags*/
-			add_action('wpcf7_admin_init',						array( $this, 'action__cfspzw_admin_init' ), 15, 0 );
+			add_action('wpcf7_admin_init', array( $this, 'action__cfspzw_admin_init' ), 15, 0 );
 			add_rewrite_rule( '^cfspzw-phpinfo(/(.*))?/?$', 'index.php?cfspzw-phpinfo=$matches[2]', 'top' );
-			flush_rewrite_rules();
+			flush_rewrite_rules(); //phpcs:ignore
 
 			/**
 			* Post Type: sagepay Add-on.
@@ -152,7 +152,7 @@ if ( !class_exists( 'CFSPZW' ) ) {
 		function action__cfspzw_admin_notices_deactive() {
 			echo '<div class="error">' .				
 					sprintf(
-						__( '<strong><a href="https://wordpress.org/plugins/contact-form-7/" target="_blank">Contact Form 7</a></strong> is required to use <strong>%s</strong>.', 'accept-sagepay-payments-using-contact-form-7' ),
+						esc_html__( '<strong><a href="https://wordpress.org/plugins/contact-form-7/" target="_blank">Contact Form 7</a></strong> is required to use <strong>%s</strong>.', 'accept-sagepay-payments-using-contact-form-7' ),
 						'Accept Sagepay Payments using Contact Form 7'
 					) .
 			'</div>';
@@ -171,7 +171,7 @@ if ( !class_exists( 'CFSPZW' ) ) {
 			$tag_generator = WPCF7_TagGenerator::get_instance();
 			$tag_generator->add(
 				'sagepay_country',
-				__( 'Sagepay Country', 'accept-sagepay-payments-using-contact-form-7' ),
+				esc_html__( 'Sagepay Country', 'accept-sagepay-payments-using-contact-form-7' ),
 				array( $this, 'wpcf7_sagepay_country_tag_generator_checkout' )
 			);
 		}		
@@ -232,7 +232,7 @@ if ( !class_exists( 'CFSPZW' ) ) {
 			</div>
 
 			<div class="insert-box">
-				<input type="text" name="<?php echo $type; ?>" class="tag code" readonly="readonly" onfocus="this.select()" />
+				<input type="text" name="<?php echo esc_attr($type); ?>" class="tag code" readonly="readonly" onfocus="this.select()" />
 
 				<div class="submitbox">
 					<input type="button" class="button button-primary insert-tag" value="<?php echo esc_attr( __( 'Insert Tag', 'accept-sagepay-payments-using-contact-form-7' ) ); ?>" />
