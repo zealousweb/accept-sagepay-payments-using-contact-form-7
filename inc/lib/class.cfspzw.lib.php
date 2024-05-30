@@ -66,7 +66,9 @@ if ( !class_exists( 'CFSPZW_Lib' ) ) {
 
 		function action__cfspzw_init() {
 			if ( !isset( $_SESSION ) || session_status() == PHP_SESSION_NONE ) {
-				session_start();
+				if (!is_admin() ) {
+					@session_start();
+				}
 			}
 		}
 
@@ -702,9 +704,9 @@ if ( !class_exists( 'CFSPZW_Lib' ) ) {
 				$encryption_password 	= ( !empty( $mode === 'sandbox' ) ? $sandbox_encryption_password : $live_encryption_password );
 
 				if( $mode == 'sandbox'){
-					$sagepay_gateway_url = 'https://test.sagepay.com/gateway/service/vspform-register.vsp';
+					$sagepay_gateway_url = 'https://sandbox.opayo.eu.elavon.com/gateway/service/vspform-register.vsp';
 				}else{
-					$sagepay_gateway_url = 'https://live.sagepay.com/gateway/service/vspform-register.vsp';
+					$sagepay_gateway_url = 'https://live.opayo.eu.elavon.com/gateway/service/vspform-register.vsp';
 				}
 
 				if ( !empty( $get_success_redirect_Id ) && $get_success_redirect_Id != 'Select page') {

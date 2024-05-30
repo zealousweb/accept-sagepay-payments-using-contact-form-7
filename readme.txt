@@ -1,14 +1,16 @@
 === Accept SagePay Payments Using Contact Form 7 ===
 Contributors: zealopensource
 Donate link: http://www.zealousweb.com/payment/
-Tags: eCommerce, payment gateway, WordPress, SagePay server,SagePay go, contact form 7
+Tags: eCommerce, payment gateway, WordPress, SagePay server,SagePay go
 Requires at least: 4.9
-Tested up to: 6.0.1
-Requires PHP: 5.6 and above
-Stable tag: 1.4
+Tested up to: 6.5
+Requires PHP: 5.6
+Stable tag: 1.8
 License: GPLv3 or later License
-Version: 1.4
+Version: 1.8
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
+
+SagePay Server Gateway for accepting payments on your Contact Form 7.
 
 == Description ==
 
@@ -89,6 +91,20 @@ For that you need to add "[sagepay-details]" tag in page.
 5. SagePay Transaction Detail Page
 
 == Changelog ==
+
+= 1.8 =
+* The updated URLs are.
+https://sandbox.opayo.eu.elavon.com/gateway/service/vspform-register.vsp
+https://live.opayo.eu.elavon.com/gateway/service/vspform-register.vsp
+
+= 1.7 =
+* session issue fixed.
+
+= 1.6 =
+* The log file issue has been successfully resolved.
+
+= 1.5 =
+* The log file issue has been successfully resolved.
 
 = 1.4 =
 * Fix Live Payment notification issue.
