@@ -152,7 +152,7 @@ if ( !class_exists( 'CFSPZW' ) ) {
 		function action__cfspzw_admin_notices_deactive() {
 			echo '<div class="error">' .				
 					sprintf(
-						esc_html__( '<strong><a href="https://wordpress.org/plugins/contact-form-7/" target="_blank">Contact Form 7</a></strong> is required to use <strong>%s</strong>.', 'accept-sagepay-payments-using-contact-form-7' ),
+						__( '<strong><a href="https://wordpress.org/plugins/contact-form-7/" target="_blank">Contact Form 7</a></strong> is required to use <strong>%s</strong>.', 'accept-sagepay-payments-using-contact-form-7' ),
 						'Accept Sagepay Payments using Contact Form 7'
 					) .
 			'</div>';
