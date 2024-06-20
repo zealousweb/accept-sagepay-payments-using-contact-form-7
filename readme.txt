@@ -5,9 +5,9 @@ Tags: eCommerce, payment gateway, WordPress, SagePay server,SagePay go
 Requires at least: 4.9
 Tested up to: 6.5
 Requires PHP: 5.6
-Stable tag: 1.8
+Stable tag: 1.9
 License: GPLv3 or later License
-Version: 1.8
+Version: 1.9
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
 SagePay Server Gateway for accepting payments on your Contact Form 7.
@@ -37,6 +37,7 @@ The plugin provides you the option to make payment only once. There is no recurr
 * There is an option of Shortcode [sagepay-details] to display the transaction ID, transaction amount, and payment status after the transaction is made.
 * You can set ‘Success Return URL’ and ‘Cancel Return URL’ pages to redirect after the payment transaction.
 * You can use the Country field Tag option to display country in the drop-down; if you are working with the custom approach, you need to set the drop-down value in ISO 3166 ( Examples: GB, IE, and DE ), so we prefer to use our tag to display country list.
+* Compatibility of WordPress VIP.
 
 = Features of Accept SagePay Payments Using Contact Form 7 Pro =
 
@@ -91,6 +92,9 @@ For that you need to add "[sagepay-details]" tag in page.
 5. SagePay Transaction Detail Page
 
 == Changelog ==
+
+= 1.9 =
+* Improved compatibility with WordPress VIP platform by refactoring code to adhere to VIP coding standards.
 
 = 1.8 =
 * The updated URLs are.
