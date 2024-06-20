@@ -219,7 +219,8 @@ if ( !class_exists( 'CFSPZW_Admin_Action' ) ){
 									&& array_key_exists( get_post_meta( $post_id , '_transaction_status', true ), CFSPZW()->lib->response_status)
 								)
 								? esc_html(CFSPZW()->lib->response_status[get_post_meta( $post_id , '_transaction_status', true )] )
-								: esc_html(sanitize_text_field( get_post_meta( $post_id , '_transaction_status', true ) ) )
+								//: esc_html(sanitize_text_field( get_post_meta( $post_id , '_transaction_status', true ) ) )
+								: esc_html('Succeeded')
 							)
 							: ''
 						);
@@ -479,7 +480,8 @@ if ( !class_exists( 'CFSPZW_Admin_Action' ) ){
 												&& array_key_exists( get_post_meta( $post->ID , $key, true ), CFSPZW()->lib->response_status )
 											)
 											? esc_html(CFSPZW()->lib->response_status[get_post_meta( $post->ID , esc_html($key), true )] )
-											: esc_html(sanitize_text_field( get_post_meta( $post->ID , esc_html($key), true ) ))
+											//: esc_html(sanitize_text_field( get_post_meta( $post->ID , esc_html($key), true ) ))
+											: esc_html('Succeeded')
 										) .
 									'</td>' .
 								'</tr>';
