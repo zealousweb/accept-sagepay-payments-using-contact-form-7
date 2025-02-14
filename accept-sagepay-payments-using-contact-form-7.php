@@ -23,7 +23,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
 * Basic plugin definitions
 *
 * @package Accept Sagepay Payments using Contact Form 7
-* @since 1.2
+* @since 1.9
 */
 
 if ( !defined( 'CFSPZW_VERSION' ) ) {

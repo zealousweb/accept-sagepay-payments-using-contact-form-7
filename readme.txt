@@ -3,7 +3,7 @@ Contributors: zealopensource
 Donate link: http://www.zealousweb.com/payment/
 Tags: eCommerce, payment gateway, WordPress, SagePay server,SagePay go
 Requires at least: 4.9
-Tested up to: 6.5
+Tested up to: 6.6
 Requires PHP: 5.6
 Stable tag: 1.9
 License: GPLv3 or later License
