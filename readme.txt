@@ -5,9 +5,9 @@ Tags: eCommerce, payment gateway, WordPress, SagePay server,SagePay go
 Requires at least: 4.9
 Tested up to: 6.6
 Requires PHP: 5.6
-Stable tag: 2.0
+Stable tag: 2.1
 License: GPLv3 or later License
-Version: 2.0
+Version: 2.1
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
 SagePay Server Gateway for accepting payments on your Contact Form 7.
@@ -92,6 +92,9 @@ For that you need to add "[sagepay-details]" tag in page.
 5. SagePay Transaction Detail Page
 
 == Changelog ==
+
+= 2.1 =
+* Security issue fixed.
 
 = 2.0 =
 * Minor adjustments in the workflow
