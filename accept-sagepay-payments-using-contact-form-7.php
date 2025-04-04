@@ -3,7 +3,7 @@
 * Plugin Name: Accept SagePay Payments Using Contact Form 7
 * Plugin URL: https://wordpress.org/plugins/accept-sagepay-payments-using-contact-form-7/
 * Description: This plugin will integrate Sagepay payment gateway for making your payments through Contact Form 7.
-* Version: 2.0
+* Version: 2.1
 * Author: ZealousWeb
 * Author URI: https://www.zealousweb.com
 * Developer: The Zealousweb Team
@@ -23,11 +23,11 @@ if ( !defined( 'ABSPATH' ) ) exit;
 * Basic plugin definitions
 *
 * @package Accept Sagepay Payments using Contact Form 7
-* @since 1.9
+* @since 2.1
 */
 
 if ( !defined( 'CFSPZW_VERSION' ) ) {
-	define( 'CFSPZW_VERSION', '1.9' ); // Version of plugin
+	define( 'CFSPZW_VERSION', '2.1' ); // Version of plugin
 }
 
 if ( !defined( 'CFSPZW_FILE' ) ) {
