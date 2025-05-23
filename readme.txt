@@ -39,7 +39,7 @@ The plugin provides you the option to make payment only once. There is no recurr
 * You can use the Country field Tag option to display country in the drop-down; if you are working with the custom approach, you need to set the drop-down value in ISO 3166 ( Examples: GB, IE, and DE ), so we prefer to use our tag to display country list.
 * Compatibility of WordPress VIP.
 
-<strong>[Demo for Accept SagePay Payments Using Contact Form 7](https://demo.zealousweb.com/wordpress-plugins/accept-sage-pay-opayo-payments-using-contact-form-7/)</strong>   
+<strong>[Demo for Accept SagePay Payments Using Contact Form 7](https://demo.zealousweb.com/wordpress-plugins/accept-sagepay-payments-using-contact-form-7/)</strong>   
 
 = Features of Accept SagePay Payments Using Contact Form 7 Pro =
 
@@ -49,7 +49,7 @@ We have released the PRO version of this plugin with extra advantageous features
 * In the list of SagePay forms entry in the admin side, you can view payment transactions unlimited Entries.
 
 <strong>[Get more information of Pro version here](https://store.zealousweb.com/accept-sage-pay-opayo-payments-using-contact-form-7-pro)</strong>
-<strong>[Demo for Accept SagePay Payments Using Contact Form 7 Pro](https://demo.zealousweb.com/wordpress-plugins/accept-sage-pay-opayo-payments-using-contact-form-7-pro/)</strong>
+<strong>[Demo for Accept SagePay Payments Using Contact Form 7 Pro](https://demo.zealousweb.com/wordpress-plugins/accept-sagepay-payments-using-contact-form-7-pro/)</strong>
 
 
 == OUR OTHER PLUGINS ==
