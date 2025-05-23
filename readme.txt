@@ -3,11 +3,11 @@ Contributors: zealopensource
 Donate link: http://www.zealousweb.com/payment/
 Tags: eCommerce, payment gateway, WordPress, SagePay server,SagePay go
 Requires at least: 4.9
-Tested up to: 6.6
+Tested up to: 6.8
 Requires PHP: 5.6
-Stable tag: 2.1
+Stable tag: 2.2
 License: GPLv3 or later License
-Version: 2.1
+Version: 2.2
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
 SagePay Server Gateway for accepting payments on your Contact Form 7.
@@ -39,12 +39,33 @@ The plugin provides you the option to make payment only once. There is no recurr
 * You can use the Country field Tag option to display country in the drop-down; if you are working with the custom approach, you need to set the drop-down value in ISO 3166 ( Examples: GB, IE, and DE ), so we prefer to use our tag to display country list.
 * Compatibility of WordPress VIP.
 
+<strong>[Demo for Accept SagePay Payments Using Contact Form 7](https://demo.zealousweb.com/wordpress-plugins/accept-sagepay-payments-using-contact-form-7/)</strong>   
+
 = Features of Accept SagePay Payments Using Contact Form 7 Pro =
 
 We have released the PRO version of this plugin with extra advantageous features added. PRO Version 1.0 Released.
 
 * Facility to import, export the list of entire SagePay unlimited Entries.
 * In the list of SagePay forms entry in the admin side, you can view payment transactions unlimited Entries.
+
+<strong>[Get more information of Pro version here](https://store.zealousweb.com/accept-sage-pay-opayo-payments-using-contact-form-7-pro)</strong>
+<strong>[Demo for Accept SagePay Payments Using Contact Form 7 Pro](https://demo.zealousweb.com/wordpress-plugins/accept-sagepay-payments-using-contact-form-7-pro/)</strong>
+
+
+== OUR OTHER PLUGINS ==
+
+* <strong>[Abandoned Contact Form 7 Pro](https://store.zealousweb.com/wordpress-plugins/abandoned-contact-form-7-pro)</strong>
+* <strong>[Accept 2 Checkout Payments Using Contact Form 7 Pro](https://store.zealousweb.com/wordpress-plugins/accept-2checkout-payments-using-contact-form-7-pro)</strong>
+* <strong>[Accept Authorize.NET Payments Using Contact Form 7 Pro](https://store.zealousweb.com/wordpress-plugins/accept-authorize-net-payments-using-contact-form-7-pro)</strong>
+* <strong>[Accept Elavon Payments Using Contact Form 7 Pro](https://store.zealousweb.com/wordpress-plugins/accept-elavon-payments-using-contact-form-7-pro)</strong>
+* <strong>[Accept PayPal Payments Using Contact Form 7 Pro](https://store.zealousweb.com/wordpress-plugins/accept-paypal-payments-using-contact-form-7-pro)</strong>
+* <strong>[Accept Sagepay(Opayo) Payments Using Contact Form 7 Pro](https://store.zealousweb.com/wordpress-plugins/accept-sage-pay-opayo-payments-using-contact-form-7-pro)</strong>
+* <strong>[Accept Stripe Payments Using Contact Form 7 Pro](https://store.zealousweb.com/wordpress-plugins/accept-stripe-payments-using-contact-form-7-pro)</strong>
+* <strong>[Custom Product Options WooCommerce Pro](https://store.zealousweb.com/wordpress-plugins/custom-product-options-woocommerce-pro)</strong>
+* <strong>[Generate PDF Using Contact Form 7 Pro](https://store.zealousweb.com/wordpress-plugins/generate-pdf-using-contact-form-7-pro)</strong>
+* <strong>[Smart Appointment & Booking Pro](https://store.zealousweb.com/wordpress-plugins/smart-appointment-booking-pro)</strong>
+* <strong>[Smart Showcase for Google Reviews Pro](https://store.zealousweb.com/wordpress-plugins/smart-showcase-for-google-reviews-pro)</strong>
+* <strong>[User Registration Using Contact Form 7 Pro](https://store.zealousweb.com/wordpress-plugins/user-registration-using-contact-form-7-pro)</strong>
 
 == Plugin Requirement ==
 
@@ -92,6 +113,9 @@ For that you need to add "[sagepay-details]" tag in page.
 5. SagePay Transaction Detail Page
 
 == Changelog ==
+
+= 2.2 =
+* Minor changes - Doc update
 
 = 2.1 =
 * Security issue fixed.
