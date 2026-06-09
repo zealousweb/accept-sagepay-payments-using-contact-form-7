@@ -64,6 +64,7 @@ if ( !class_exists( 'CFSPZW_Admin_Action' ) ){
 			wp_register_script( CFSPZW_PREFIX . '_cookie_js', CFSPZW_URL . 'assets/js/cookie.min.js', array(), CFSPZW_VERSION );
 			
 			wp_register_style( CFSPZW_PREFIX . '_admin_css', CFSPZW_URL . 'assets/css/admin.min.css', array(), CFSPZW_VERSION );
+			wp_enqueue_style( CFSPZW_PREFIX . '_admin_css' );
 			wp_register_script( CFSPZW_PREFIX . '_admin_js', CFSPZW_URL . 'assets/js/admin.min.js', array( 'jquery-core' ), CFSPZW_VERSION );
 
 			wp_register_style( 'select2', CFSPZW_URL . 'assets/css/select2.min.css', array(), CFSPZW_VERSION );
