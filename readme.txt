@@ -3,11 +3,11 @@ Contributors: zealopensource
 Donate link: http://www.zealousweb.com/payment/
 Tags: eCommerce, payment gateway, WordPress, SagePay server,SagePay go
 Requires at least: 4.9
-Tested up to: 6.8
+Tested up to: 7.0
 Requires PHP: 5.6
-Stable tag: 2.2
+Stable tag: 2.3
 License: GPLv3 or later License
-Version: 2.2
+Version: 2.3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
 SagePay Server Gateway for accepting payments on your Contact Form 7.
@@ -113,6 +113,9 @@ For that you need to add "[sagepay-details]" tag in page.
 5. SagePay Transaction Detail Page
 
 == Changelog ==
+
+= 2.3 =
+* Added a new "Open Support Ticket" button to provide quick and direct access to support.
 
 = 2.2 =
 * Minor changes - Doc update
