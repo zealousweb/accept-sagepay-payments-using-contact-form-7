@@ -39,22 +39,24 @@ if ( !class_exists( 'CFSPZW' ) ) {
 			
 			// Action to load plugin text domain
 			add_action( 'plugins_loaded', array( $this, 'action__cfspzw_plugins_loaded' ), 1 );
-			add_action( 'all_admin_notices', array( $this, 'action__cfspzw_support_button' ) );
+			add_action( 'restrict_manage_posts',array( $this,  'action__cfspzw_support_button' ));
 		}
 
-		
+		/**
+		* Action: action__cfspzw_support_button
+		*
+		*/
 
 		function action__cfspzw_support_button() {
 
-			$cfspzw_screen = get_current_screen();
+			global $typenow;
 
-			if ( 'edit-cfspzw_data' !== $cfspzw_screen->id ) {
-				return;
+			if ( 'cfspzw_data' === $typenow ) {
+
+				echo '<a class="cf7adn-primary-btn" href="https://support.zealousweb.com/portal/en/home" target="_blank" rel="noopener noreferrer">'
+					. esc_html__( 'Open Support Ticket', 'accept-authorize-net-payments-using-contact-form-7' ) .
+				'</a>';
 			}
-
-			echo '<a class="cf7adn-primary-btn" href="https://support.zealousweb.com/portal/en/home" target="_blank" rel="noopener noreferrer">'
-				. esc_html__( 'Open Support Ticket', 'accept-authorize-net-payments-using-contact-form-7' ) .
-			'</a>';
 		}
 
 
